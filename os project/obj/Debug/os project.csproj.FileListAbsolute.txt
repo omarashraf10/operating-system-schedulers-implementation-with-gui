@@ -7,3 +7,12 @@ c:\users\omar\documents\visual studio 2012\Projects\os project\os project\obj\De
 c:\users\omar\documents\visual studio 2012\Projects\os project\os project\obj\Debug\os project.csproj.GenerateResource.Cache
 c:\users\omar\documents\visual studio 2012\Projects\os project\os project\obj\Debug\os project.exe
 c:\users\omar\documents\visual studio 2012\Projects\os project\os project\obj\Debug\os project.pdb
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\bin\Debug\os project.exe.config
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.exe
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.pdb
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\bin\Debug\os project.exe
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\bin\Debug\os project.pdb
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.csprojResolveAssemblyReference.cache
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os_project.Form1.resources
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os_project.Properties.Resources.resources
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.csproj.GenerateResource.Cache

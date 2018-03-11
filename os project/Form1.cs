@@ -26,5 +26,24 @@ namespace os_project
         {
 
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.Text == "Priority (Preemptive)") 
+            {
+                label5.Visible = true;
+                textBox3.Visible = true;
+            }
+            else if (comboBox1.Text == "Priority (Non Preemptive)")
+            {
+                label5.Visible = true;
+                textBox3.Visible = true;
+            }
+            else
+            {
+                label5.Visible = false;
+                textBox3.Visible = false;
+            }
+        }
     }
 }

@@ -51,7 +51,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(155, 13);
+            this.label1.Size = new System.Drawing.Size(159, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "please enter number of process";
             // 
@@ -67,7 +67,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 51);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(169, 26);
+            this.label2.Size = new System.Drawing.Size(171, 26);
             this.label2.TabIndex = 2;
             this.label2.Text = "please choose the scheduler type \r\n\r\n";
             // 
@@ -85,6 +85,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(125, 21);
             this.comboBox1.TabIndex = 3;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -100,7 +101,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(16, 168);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 13);
+            this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 5;
             this.label4.Text = "Arrival Time";
             // 
@@ -109,9 +110,10 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(16, 199);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(37, 13);
+            this.label5.Size = new System.Drawing.Size(41, 13);
             this.label5.TabIndex = 6;
             this.label5.Text = "priority";
+            this.label5.Visible = false;
             // 
             // textBox2
             // 
@@ -126,6 +128,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(54, 20);
             this.textBox3.TabIndex = 8;
+            this.textBox3.Visible = false;
             // 
             // textBox4
             // 
@@ -139,7 +142,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(12, 89);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(247, 26);
+            this.label6.Size = new System.Drawing.Size(259, 26);
             this.label6.TabIndex = 10;
             this.label6.Text = "for first process please enter it\'s informations,\r\nthen press add to enter the ne" +
     "xt one\'s informations.\r\n";
@@ -167,7 +170,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(12, 286);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(191, 13);
+            this.label7.Size = new System.Drawing.Size(196, 13);
             this.label7.TabIndex = 13;
             this.label7.Text = "after adding all processes press submit ";
             // 
