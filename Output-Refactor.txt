@@ -1,0 +1,12 @@
+﻿Rename 'button3' to 'confirm'
+
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(253,45): updated definition
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(47,18): updated reference
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(197,18): updated reference
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(198,18): updated reference
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(199,18): updated reference
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(200,18): updated reference
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(201,18): updated reference
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(202,18): updated reference
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(203,18): updated reference
+E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\Form1.Designer.cs(210,36): updated reference

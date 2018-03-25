@@ -16,7 +16,8 @@ namespace os_project
         {
             InitializeComponent();
         }
-
+        int num_process;
+        List<process> processes = new List<process>();
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
@@ -29,21 +30,185 @@ namespace os_project
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.Text == "Priority (Preemptive)") 
+            if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)") 
             {
-                label5.Visible = true;
-                textBox3.Visible = true;
-            }
-            else if (comboBox1.Text == "Priority (Non Preemptive)")
-            {
-                label5.Visible = true;
-                textBox3.Visible = true;
+                priority_label.Visible = true;
+                priority_text.Visible = true;
             }
             else
             {
-                label5.Visible = false;
-                textBox3.Visible = false;
+                priority_label.Visible = false;
+                priority_text.Visible = false;
             }
+
+            if (comboBox1.Text == "Round Robin")
+            {
+                textBox3.Visible = true;
+                label5.Visible = true;
+            }
+            else
+            {
+                textBox3.Visible = false;
+                label5.Visible = false;
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int temparrival = Int32.Parse(textBox4.Text);
+            int tempburst = Int32.Parse(textBox2.Text);
+            int temppriority = Int32.Parse(priority_text.Text);
+
+            process tempprocess = new process();
+            tempprocess.arrival_time = temparrival;
+            tempprocess.burst_time = tempburst;
+            tempprocess.priority = temppriority;
+
+
+            processes.Add(tempprocess);
+            textBox4.Text = "";
+            textBox2.Text = "";
+            priority_text.Text = "";
+
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            num_process = Int32.Parse(textBox1.Text);
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int end = 0;
+            int sum = 0;
+            if (comboBox1.Text == "FCFS")
+            {
+
+                for (int i = 0; i < num_process; i++)
+                {
+                    if (end > processes[i].arrival_time)
+                        processes[i].waiting = end - processes[i].arrival_time;
+                    else
+                        processes[i].waiting = 0;
+
+                    processes[i].real_end = end + processes[i].burst_time;
+                    end = processes[i].real_end;
+                    sum += processes[i].waiting;
+                }
+
+                textBox5.Text = ((float)sum / num_process).ToString();
+            }
+            else if (comboBox1.Text == "SJF (Non Preemptive)")
+            {
+                int cpuend = 0;
+                int burst_time = 100000;
+                  process minprocess=processes[0];
+                  int sjsum = 0;
+                  int index=0;
+                  int n = num_process; 
+                  for (int j = 0; j < num_process;j++ )
+                  {
+  
+                      for (int i = 0; i < n; i++)
+                      {
+                          if (processes[i].arrival_time <= cpuend)
+                          {
+                              if (processes[i].burst_time < burst_time)
+                              {
+                                  minprocess = processes[i];
+                                  burst_time = processes[i].burst_time;
+                                  index = i;
+                              }
+                          }
+
+                      }
+                      
+                      if (cpuend >minprocess.arrival_time)
+                          minprocess.waiting = cpuend - minprocess.arrival_time;
+                      else
+                          minprocess.waiting = 0;
+
+
+                      cpuend += minprocess.burst_time;
+                      sjsum += minprocess.waiting;
+                      for (int i = index; i < n-1; i++)
+                      {
+                        processes[i] = processes[i + 1];
+                      }
+
+                       burst_time = 100000;
+
+                          n--;
+                  }
+                  textBox5.Text = ((float)sjsum/num_process).ToString();
+            
+         
+            }
+            else if (comboBox1.Text == "Priority (Non Preemptive)")
+            {
+                int cpuend = 0;
+                int priority = 100000;
+                process bestprocess = processes[0];
+                int psum = 0;
+                int index = 0;
+                int n = num_process;
+                for (int j = 0; j < num_process; j++)
+                {
+
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (processes[i].arrival_time <= cpuend)
+                        {
+                            if (processes[i].priority < priority)
+                            {
+                                bestprocess = processes[i];
+                                priority = processes[i].priority;
+                                index = i;
+                            }
+                        }
+
+                    }
+
+                    if (cpuend > bestprocess.arrival_time)
+                         bestprocess.waiting = cpuend - bestprocess.arrival_time;
+                    else
+                        bestprocess.waiting = 0;
+
+                    cpuend += bestprocess.burst_time;
+                    psum += bestprocess.waiting;
+                    for (int i = index; i < n - 1; i++)
+                    {
+                        processes[i] = processes[i + 1];
+                    }
+
+                    priority = 100000;
+
+                    n--;
+                }
+                textBox5.Text = ((float)psum / num_process).ToString();
+
+            }
+        }
+
+        private void priority_text_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
