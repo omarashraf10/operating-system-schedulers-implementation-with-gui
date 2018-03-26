@@ -102,6 +102,8 @@ namespace os_project
         }
         private void button3_Click(object sender, EventArgs e)
         {
+            label5.Enabled = false;
+            textBox3.Enabled = false;
             num_process = Int32.Parse(textBox1.Text);
             textBox4.Visible = true;
             textBox2.Visible = true;
