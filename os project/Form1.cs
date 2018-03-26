@@ -12,6 +12,9 @@ namespace os_project
 {
     public partial class Form1 : Form
     {
+
+          
+
         public Form1()
         {
             InitializeComponent();
@@ -27,9 +30,14 @@ namespace os_project
         {
 
         }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "SJF (Preemptive)" || comboBox1.Text == "SJF (Non Preemptive)"
+                || comboBox1.Text == "Priority (Non Preemptive)" || comboBox1.Text == "Round Robin" || comboBox1.Text == "FCFS"
+           )
+                confirm.Enabled = true;
+
             if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)") 
             {
                 priority_label.Visible = true;
@@ -53,12 +61,13 @@ namespace os_project
             }
 
         }
-
+        int count_click = 0;
         private void button1_Click(object sender, EventArgs e)
         {
+            count_click++;
+            label10.Text = (count_click+1).ToString();
             int temparrival = Int32.Parse(textBox4.Text);
             int tempburst = Int32.Parse(textBox2.Text);
-            
 
             process tempprocess = new process();
             tempprocess.arrival_time = temparrival;
@@ -74,32 +83,64 @@ namespace os_project
             {
                 tempprocess.remaining_time = tempprocess.burst_time;
             }
-
+           
 
             processes.Add(tempprocess);
             textBox4.Text = "";
             textBox2.Text = "";
             priority_text.Text = "";
+            if (count_click == num_process)
+            {
+                button2.Enabled = true;
+                groupBox1.Visible = false;
+            }
+     
 
         }
         private void button3_Click(object sender, EventArgs e)
         {
             num_process = Int32.Parse(textBox1.Text);
+            textBox4.Visible = true;
+            textBox2.Visible = true;
+            textBox1.Enabled = false;
+            comboBox1.Enabled = false;
+            confirm.Enabled = false;
+            label10.Text = "1";
+
 
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
+            int n;
+            bool isNumeric = int.TryParse(textBox4.Text, out n);
+            bool isNumeric2 = int.TryParse(textBox2.Text, out n);
+            if (isNumeric && isNumeric2) button1.Enabled = true;
+            else
+            {
+                button1.Enabled = false;
 
+            }
         }
 
         private void textBox2_TextChanged_1(object sender, EventArgs e)
         {
+            int n;
+            bool isNumeric = int.TryParse(textBox4.Text, out n);
+            bool isNumeric2 = int.TryParse(textBox2.Text, out n);
+            if (isNumeric && isNumeric2) button1.Enabled = true;
+            else
+            {
+                button1.Enabled = false;
 
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            button3.Visible = true;
+
+            
             int end = 0;
             int sum = 0;
             if (comboBox1.Text == "FCFS")
@@ -117,7 +158,7 @@ namespace os_project
                     sum += processes[i].waiting;
                 }
 
-                textBox5.Text = ((float)sum / num_process).ToString();
+                label9.Text = ((float)sum / num_process).ToString();
             }
             else if (comboBox1.Text == "SJF (Non Preemptive)")
             {
@@ -161,7 +202,7 @@ namespace os_project
 
                           n--;
                   }
-                  textBox5.Text = ((float)sjsum/num_process).ToString();
+                  label9.Text = ((float)sjsum/num_process).ToString();
             
          
             }
@@ -206,7 +247,7 @@ namespace os_project
 
                     n--;
                 }
-                textBox5.Text = ((float)psum / num_process).ToString();
+                label9.Text = ((float)psum / num_process).ToString();
 
             }
 
@@ -260,7 +301,7 @@ namespace os_project
                    }
                    t++;
                 }
-                textBox5.Text = ((float)sjsum / num_process).ToString();
+                label9.Text = ((float)sjsum / num_process).ToString();
 
 
             }
@@ -316,12 +357,12 @@ namespace os_project
                     }
                     t++;
                 }
-                textBox5.Text = ((float)sjsum / num_process).ToString();
+                label9.Text = ((float)sjsum / num_process).ToString();
 
 
             }
 
-
+           
 
 
         }
@@ -332,6 +373,43 @@ namespace os_project
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            int n;
+            bool isNumeric = int.TryParse(textBox1.Text, out n);
+            if (isNumeric)
+                confirm.Visible = true;
+            else confirm.Visible = false;
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            priority_label.Visible = false;
+            priority_text.Visible = false;
+            textBox3.Visible = false;
+            label5.Visible = false;
+            confirm.Enabled = false;
+            button2.Enabled = false;
+            textBox4.Visible = false;
+            textBox2.Visible=false;
+            processes.Clear();
+            textBox1.Text = "0";
+            comboBox1.Text = "";
+            count_click = 0;
+            num_process = Int32.Parse(textBox1.Text);
+            groupBox1.Visible = true;
+            label10.Text="";
+            label9.Text = "";
+            textBox1.Enabled = true;
+            comboBox1.Enabled = true;
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
         {
 
         }
