@@ -21,6 +21,7 @@ namespace os_project
         }
         int num_process;
         List<process> processes = new List<process>();
+        int quantum;
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
@@ -79,11 +80,13 @@ namespace os_project
                 tempprocess.priority = temppriority;
             }
 
-            if (comboBox1.Text == "SJF (Preemptive)" || comboBox1.Text == "Priority (Preemptive)")
+            if (comboBox1.Text == "SJF (Preemptive)" || comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Round Robin")
             {
                 tempprocess.remaining_time = tempprocess.burst_time;
             }
-           
+
+            if (comboBox1.Text == "Round Robin")
+                quantum = Int32.Parse(textBox3.Text);
 
             processes.Add(tempprocess);
             textBox4.Text = "";
@@ -274,15 +277,7 @@ namespace os_project
                         }
 
                     }
-                    /*
-                    if (cpuend > minprocess.arrival_time)
-                        minprocess.waiting = cpuend - minprocess.arrival_time;
-                    else
-                        minprocess.waiting = 0;
-                    */
-
-                  //  cpuend += minprocess.burst_time;
-
+                 
 
                     processes[index].remaining_time--;
                     if (processes[index].remaining_time <= 0)
@@ -330,15 +325,7 @@ namespace os_project
                         }
 
                     }
-                    /*
-                    if (cpuend > minprocess.arrival_time)
-                        minprocess.waiting = cpuend - minprocess.arrival_time;
-                    else
-                        minprocess.waiting = 0;
-                    */
-
-                    //  cpuend += minprocess.burst_time;
-
+                   
 
                     processes[index].remaining_time--;
                     if (processes[index].remaining_time <= 0)
@@ -362,10 +349,72 @@ namespace os_project
 
             }
 
-           
+    
+            
+            else if (comboBox1.Text == "Round Robin")
+            {
+
+                int t = 1;
+                int rrsum = 0;
+                int n = num_process;
+                while (n > 0)
+                {
+                    for (int i = 0; i < n; i++)
+                    {
+
+                        if (processes[i].arrival_time < t)
+                        {
+                            if (processes[i].remaining_time > quantum)
+                            {
+                                processes[i].remaining_time -= quantum;
+                                t += quantum;
+                            }
+                            else
+                            {
+                                t += processes[i].remaining_time;
+                                processes[i].remaining_time = 0;
+                                processes[i].waiting = t - processes[i].burst_time - processes[i].arrival_time-1;
+                                rrsum += processes[i].waiting;          
+                                
+                            }
+                        
+                        }
+                    }
+                  
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (processes[i].remaining_time == 0)
+                        {
+                            for (int j =i; j < n - 1; j++)
+                            {
+                                processes[j]= processes[j + 1];
+                            }
+                            n--;
+                            i--;
+                        }
+                                       
+                    }
 
 
-        }
+               }
+
+                label9.Text = ((float)rrsum / num_process).ToString();
+           }
+
+
+    }
+
+
+    
+
+
+
+
+
+
+
+
+
 
         private void priority_text_TextChanged(object sender, EventArgs e)
         {

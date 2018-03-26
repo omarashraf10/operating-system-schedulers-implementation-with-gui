@@ -25,3 +25,12 @@ E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\o
 E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os_project.Form1.resources
 E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os_project.Properties.Resources.resources
 E:\courses\ospr\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.csproj.GenerateResource.Cache
+E:\courses\git_os\operating-system-schedulers-implementation-with-gui\os project\bin\Debug\os project.exe.config
+E:\courses\git_os\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.exe
+E:\courses\git_os\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.pdb
+E:\courses\git_os\operating-system-schedulers-implementation-with-gui\os project\bin\Debug\os project.exe
+E:\courses\git_os\operating-system-schedulers-implementation-with-gui\os project\bin\Debug\os project.pdb
+E:\courses\git_os\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.csprojResolveAssemblyReference.cache
+E:\courses\git_os\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os_project.Form1.resources
+E:\courses\git_os\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os_project.Properties.Resources.resources
+E:\courses\git_os\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.csproj.GenerateResource.Cache
