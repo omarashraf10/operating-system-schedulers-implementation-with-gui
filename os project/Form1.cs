@@ -53,7 +53,11 @@ namespace os_project
             if (comboBox1.Text == "Round Robin")
             {
                 textBox3.Visible = true;
+                textBox3.Enabled = true;
+
                 label5.Visible = true;
+                label5.Enabled = true;
+
             }
             else
             {
@@ -351,11 +355,11 @@ namespace os_project
 
             }
 
-    
-            
+
+
             else if (comboBox1.Text == "Round Robin")
             {
-
+                int flag = 0;
                 int t = 1;
                 int rrsum = 0;
                 int n = num_process;
@@ -366,6 +370,7 @@ namespace os_project
 
                         if (processes[i].arrival_time < t)
                         {
+                            flag++;
                             if (processes[i].remaining_time > quantum)
                             {
                                 processes[i].remaining_time -= quantum;
@@ -375,33 +380,38 @@ namespace os_project
                             {
                                 t += processes[i].remaining_time;
                                 processes[i].remaining_time = 0;
-                                processes[i].waiting = t - processes[i].burst_time - processes[i].arrival_time-1;
-                                rrsum += processes[i].waiting;          
-                                
+                                processes[i].waiting = t - processes[i].burst_time - processes[i].arrival_time - 1;
+                                rrsum += processes[i].waiting;
+
                             }
-                        
+
                         }
+
+
                     }
-                  
+
+                    if (flag == 0)
+                        t++;
+
                     for (int i = 0; i < n; i++)
                     {
                         if (processes[i].remaining_time == 0)
                         {
-                            for (int j =i; j < n - 1; j++)
+                            for (int j = i; j < n - 1; j++)
                             {
-                                processes[j]= processes[j + 1];
+                                processes[j] = processes[j + 1];
                             }
                             n--;
                             i--;
                         }
-                                       
+
                     }
 
 
-               }
+                }
 
                 label9.Text = ((float)rrsum / num_process).ToString();
-           }
+            }
 
 
     }
