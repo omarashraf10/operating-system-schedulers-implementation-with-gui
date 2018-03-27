@@ -67,6 +67,7 @@ namespace os_project
 
         }
         int count_click = 0;
+
         private void button1_Click(object sender, EventArgs e)
         {
             count_click++;
@@ -148,7 +149,48 @@ namespace os_project
 
         private void button2_Click(object sender, EventArgs e)
         {
-            button3.Visible = true;
+            SolidBrush sbwhite = new SolidBrush(Color.White);
+            SolidBrush sbred = new SolidBrush(Color.Red);
+            SolidBrush sbgreen = new SolidBrush(Color.Green);
+            SolidBrush sbblue = new SolidBrush(Color.Blue);
+            SolidBrush sbpink = new SolidBrush(Color.Pink);
+            SolidBrush sbpurple = new SolidBrush(Color.Purple);
+            SolidBrush sbbrown = new SolidBrush(Color.Brown);
+            Graphics g = panel1.CreateGraphics();
+            FontFamily ff = new FontFamily ("Arial");
+            System.Drawing.Font font = new System.Drawing.Font(ff,10);
+            for (int i = 0; i < num_process; i++)
+            {
+                if (i % num_process == 0)
+                {
+                    g.FillRectangle(sbred, 20 * i, 20, 100, 50);
+                    g.DrawString("P1", font, sbwhite, new PointF(20 * i + 40, 30));
+                }
+                else if (i % num_process == 1)
+                {
+                    g.FillRectangle(sbgreen, 20 * (i - 1) + 100, 20, 100, 50);
+                    g.DrawString("P2", font, sbwhite, new PointF(20 * (i-1)+100 + 40, 30));
+
+                }
+                else if (i % num_process == 2)
+                {
+                    g.FillRectangle(sbblue, 20 * (i - 2) + 100 + 100, 20, 100, 50);
+                    g.DrawString("P3", font, sbwhite, new PointF(20 * (i-2) +100+100+ 40, 30));
+
+                }
+
+                else if (i % num_process == 3)
+                {
+                    g.FillRectangle(sbpink, 20 * (i - 3) + 100 + 100+100, 20, 100, 50);
+                    g.DrawString("P4", font, sbwhite, new PointF(20 * (i - 3) +100+ 100 + 100 + 40, 30));
+
+                }
+
+           }
+
+
+
+                button3.Visible = true;
             if (comboBox1.Text == "FCFS")
             {
 
