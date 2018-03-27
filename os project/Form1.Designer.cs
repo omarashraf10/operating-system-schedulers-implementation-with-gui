@@ -49,8 +49,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -170,7 +170,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(329, 60);
             this.label6.TabIndex = 10;
-            this.label6.Text = "Enter the process information.\r\nProcess Noumber";
+            this.label6.Text = "Enter the process information.\r\nProcess Noumber:";
             this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // button1
@@ -299,16 +299,6 @@
             this.label9.Size = new System.Drawing.Size(0, 26);
             this.label9.TabIndex = 21;
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Maroon;
-            this.label10.Location = new System.Drawing.Point(200, 46);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(0, 30);
-            this.label10.TabIndex = 19;
-            // 
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Book Antiqua", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -320,6 +310,16 @@
             this.button3.Text = "RESET";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Maroon;
+            this.label10.Location = new System.Drawing.Point(200, 46);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(0, 30);
+            this.label10.TabIndex = 19;
             // 
             // Form1
             // 
@@ -368,8 +368,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label10;
     }
 }
 

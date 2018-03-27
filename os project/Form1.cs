@@ -70,7 +70,7 @@ namespace os_project
         private void button1_Click(object sender, EventArgs e)
         {
             count_click++;
-            label10.Text = (count_click+1).ToString();
+            label10.Text = "P"+(count_click+1).ToString();
             int temparrival = Int32.Parse(textBox4.Text);
             int tempburst = Int32.Parse(textBox2.Text);
             int temppriority;
@@ -115,7 +115,7 @@ namespace os_project
             textBox1.Enabled = false;
             comboBox1.Enabled = false;
             confirm.Enabled = false;
-            label10.Text = "1";
+            label10.Text = "P1";
 
 
         }
@@ -149,10 +149,6 @@ namespace os_project
         private void button2_Click(object sender, EventArgs e)
         {
             button3.Visible = true;
-
-            
-            int end = 0;
-            int sum = 0;
             if (comboBox1.Text == "FCFS")
             {
 
