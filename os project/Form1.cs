@@ -73,6 +73,7 @@ namespace os_project
             label10.Text = (count_click+1).ToString();
             int temparrival = Int32.Parse(textBox4.Text);
             int tempburst = Int32.Parse(textBox2.Text);
+            int temppriority;
 
             process tempprocess = new process();
             tempprocess.arrival_time = temparrival;
@@ -80,7 +81,7 @@ namespace os_project
 
             if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)")
             {
-                int temppriority = Int32.Parse(priority_text.Text);
+                temppriority = Int32.Parse(priority_text.Text);
                 tempprocess.priority = temppriority;
             }
 
@@ -155,20 +156,48 @@ namespace os_project
             if (comboBox1.Text == "FCFS")
             {
 
-                for (int i = 0; i < num_process; i++)
+                int flag;
+                int t = 1;
+                int mintime;
+                int fsum = 0;
+                int index = 0;
+                int n = num_process;
+                while (n > 0)
                 {
-                    if (end > processes[i].arrival_time)
-                        processes[i].waiting = end - processes[i].arrival_time;
-                    else
-                        processes[i].waiting = 0;
+                    flag = 0;
+                    mintime = 1000000;
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (processes[i].arrival_time < t && processes[i].arrival_time < mintime)
+                        {
+                            flag++;
+                            mintime = processes[i].arrival_time;
+                            index = i;
+                        }
+                    }
 
-                    processes[i].real_end = end + processes[i].burst_time;
-                    end = processes[i].real_end;
-                    sum += processes[i].waiting;
+                    if (flag == 0)
+                        t++;
+
+                    t += processes[index].burst_time;
+                    processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
+                    fsum += processes[index].waiting;
+
+                        if (processes[index].remaining_time == 0)
+                        {
+                            for (int j = index; j < n - 1; j++)
+                            {
+                                processes[j] = processes[j + 1];
+                            }
+                            n--;
+                        }
+
                 }
-
-                label9.Text = ((float)sum / num_process).ToString();
+                label9.Text = ((float)fsum / num_process).ToString();
             }
+
+
+            
             else if (comboBox1.Text == "SJF (Non Preemptive)")
             {
                 int cpuend = 0;
