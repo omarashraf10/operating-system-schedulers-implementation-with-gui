@@ -19,6 +19,10 @@ namespace os_project
         {
             InitializeComponent();
         }
+
+        
+
+
         int num_process;
         List<process> processes = new List<process>();
         int quantum;
@@ -67,11 +71,12 @@ namespace os_project
 
         }
         int count_click = 0;
-
+        int num=0;
         private void button1_Click(object sender, EventArgs e)
         {
+           
             count_click++;
-            label10.Text = "P"+(count_click+1).ToString();
+            
             int temparrival = Int32.Parse(textBox4.Text);
             int tempburst = Int32.Parse(textBox2.Text);
             int temppriority;
@@ -79,7 +84,8 @@ namespace os_project
             process tempprocess = new process();
             tempprocess.arrival_time = temparrival;
             tempprocess.burst_time = tempburst;
-
+            tempprocess.name = "P"+ (num).ToString();
+            label10.Text = "P" + (num + 1).ToString();
             if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)")
             {
                 temppriority = Int32.Parse(priority_text.Text);
@@ -103,11 +109,12 @@ namespace os_project
                 button2.Enabled = true;
                 groupBox1.Visible = false;
             }
-     
 
+            num++;
         }
         private void button3_Click(object sender, EventArgs e)
         {
+            num = 1;
             label5.Enabled = false;
             textBox3.Enabled = false;
             num_process = Int32.Parse(textBox1.Text);
@@ -118,6 +125,7 @@ namespace os_project
             confirm.Enabled = false;
             label10.Text = "P1";
 
+            
 
         }
 
@@ -149,16 +157,14 @@ namespace os_project
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SolidBrush sbwhite = new SolidBrush(Color.White);
-            SolidBrush sbred = new SolidBrush(Color.Red);
-            SolidBrush sbgreen = new SolidBrush(Color.Green);
-            SolidBrush sbblue = new SolidBrush(Color.Blue);
-            SolidBrush sbpink = new SolidBrush(Color.Pink);
-            SolidBrush sbpurple = new SolidBrush(Color.Purple);
-            SolidBrush sbbrown = new SolidBrush(Color.Brown);
+            button2.Enabled = false;
+            SolidBrush sbwhite = new SolidBrush(Color.Green);
+            SolidBrush sblack = new SolidBrush(Color.Black);
+            SolidBrush sbyellow = new SolidBrush(Color.Yellow);
             Graphics g = panel1.CreateGraphics();
-            FontFamily ff = new FontFamily ("Arial");
-            System.Drawing.Font font = new System.Drawing.Font(ff,10);
+            FontFamily ff = new FontFamily("Arial");
+            System.Drawing.Font font = new System.Drawing.Font(ff, 10);
+            /*
             for (int i = 0; i < num_process; i++)
             {
                 if (i % num_process == 0)
@@ -187,7 +193,7 @@ namespace os_project
                 }
 
            }
-
+            */
 
 
                 button3.Visible = true;
@@ -200,6 +206,8 @@ namespace os_project
                 int fsum = 0;
                 int index = 0;
                 int n = num_process;
+                int x = 20;
+                int y = 1;
                 while (n > 0)
                 {
                     flag = 0;
@@ -215,12 +223,25 @@ namespace os_project
                     }
 
                     if (flag == 0)
+                    {
                         t++;
+                        continue;
+                    }
+                    if(y%2!=0)
+                    g.FillRectangle(sbwhite, x, 20, 100, 50);
+                    else
+                    g.FillRectangle(sbyellow, x, 20, 100, 50);
+
+                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
+                    g.DrawString(processes[index].name, font, sblack, new PointF(x + 45, 30));
+                    g.DrawString((t-1+processes[index].burst_time).ToString(), font, sblack, new PointF(x + 80, 30));
 
                     t += processes[index].burst_time;
                     processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
                     fsum += processes[index].waiting;
 
+                    x += 100;
+                    y++;
                         if (processes[index].remaining_time == 0)
                         {
                             for (int j = index; j < n - 1; j++)
@@ -229,7 +250,7 @@ namespace os_project
                             }
                             n--;
                         }
-
+                       
                 }
                 label9.Text = ((float)fsum / num_process).ToString();
             }
@@ -238,21 +259,25 @@ namespace os_project
             
             else if (comboBox1.Text == "SJF (Non Preemptive)")
             {
-                int cpuend = 0;
-                int burst_time = 100000;
+                  int t = 1;
+                  int flag;
+                  int burst_time = 100000;
                   process minprocess=processes[0];
                   int sjsum = 0;
                   int index=0;
-                  int n = num_process; 
+                  int n = num_process;
+                  int x = 20;
+                  int y = 1;
                   for (int j = 0; j < num_process;j++ )
                   {
-  
+                      flag = 0;
                       for (int i = 0; i < n; i++)
                       {
-                          if (processes[i].arrival_time <= cpuend)
+                          if (processes[i].arrival_time < t)
                           {
                               if (processes[i].burst_time < burst_time)
                               {
+                                  flag++;
                                   minprocess = processes[i];
                                   burst_time = processes[i].burst_time;
                                   index = i;
@@ -260,15 +285,26 @@ namespace os_project
                           }
 
                       }
-                      
-                      if (cpuend >minprocess.arrival_time)
-                          minprocess.waiting = cpuend - minprocess.arrival_time;
+                      if (flag == 0)
+                      {
+                          t++;
+                          continue;
+                      }
+                      if (y % 2 != 0)
+                          g.FillRectangle(sbwhite, x, 20, 100, 50);
                       else
-                          minprocess.waiting = 0;
+                          g.FillRectangle(sbyellow, x, 20, 100, 50);
 
+                      g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
+                      g.DrawString(processes[index].name, font, sblack, new PointF(x + 45, 30));
+                      g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + 80, 30));
 
-                      cpuend += minprocess.burst_time;
-                      sjsum += minprocess.waiting;
+                      t += processes[index].burst_time;
+                      processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
+                      sjsum += processes[index].waiting;
+
+                      x += 100;
+                      y++;
                       for (int i = index; i < n-1; i++)
                       {
                         processes[i] = processes[i + 1];
@@ -284,21 +320,26 @@ namespace os_project
             }
             else if (comboBox1.Text == "Priority (Non Preemptive)")
             {
-                int cpuend = 0;
-                int priority = 100000;
+                int t = 1;
+                int flag;
+                int priority = 10000000;
                 process bestprocess = processes[0];
                 int psum = 0;
                 int index = 0;
                 int n = num_process;
+                int x = 20;
+                int y = 1;
+
                 for (int j = 0; j < num_process; j++)
                 {
-
+                    flag = 0;
                     for (int i = 0; i < n; i++)
                     {
-                        if (processes[i].arrival_time <= cpuend)
-                        {
+                        if (processes[i].arrival_time <t)
+                       {
                             if (processes[i].priority < priority)
                             {
+                                flag++;
                                 bestprocess = processes[i];
                                 priority = processes[i].priority;
                                 index = i;
@@ -306,14 +347,28 @@ namespace os_project
                         }
 
                     }
+                    if (flag == 0)
+                    {
+                        t++;
+                        continue;
+                    }
 
-                    if (cpuend > bestprocess.arrival_time)
-                         bestprocess.waiting = cpuend - bestprocess.arrival_time;
+                    if (y % 2 != 0)
+                        g.FillRectangle(sbwhite, x, 20, 100, 50);
                     else
-                        bestprocess.waiting = 0;
+                        g.FillRectangle(sbyellow, x, 20, 100, 50);
 
-                    cpuend += bestprocess.burst_time;
-                    psum += bestprocess.waiting;
+                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
+                    g.DrawString(processes[index].name, font, sblack, new PointF(x + 45, 30));
+                    g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + 80, 30));
+
+                    t += processes[index].burst_time;
+                    processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
+                    psum += processes[index].waiting;
+
+                    x += 100;
+                    y++;
+                    
                     for (int i = index; i < n - 1; i++)
                     {
                         processes[i] = processes[i + 1];
@@ -330,7 +385,7 @@ namespace os_project
             else if (comboBox1.Text == "SJF (Preemptive)")
             {
                 int t =1;
-                int remaining_time = 100000;
+                int remaining_time = 10000000;
                 process minprocess = processes[0];
                 int sjsum = 0;
                 int index = 0;
@@ -382,13 +437,16 @@ namespace os_project
                 process minprocess = processes[0];
                 int sjsum = 0;
                 int index = 0;
+                
                 int n = num_process;
                 while (n > 0)
                 {
+                    
                     for (int i = 0; i < n; i++)
                     {
                         if (processes[i].arrival_time < t)
                         {
+                            
                             if (processes[i].priority < priority)
                             {
                                 minprocess = processes[i];
@@ -398,8 +456,7 @@ namespace os_project
                         }
 
                     }
-                   
-
+                    
                     processes[index].remaining_time--;
                     if (processes[index].remaining_time <= 0)
                     {
@@ -430,6 +487,8 @@ namespace os_project
                 int t = 1;
                 int rrsum = 0;
                 int n = num_process;
+                int x = 20;
+                int y = 1;
                 while (n > 0)
                 {
                     for (int i = 0; i < n; i++)
@@ -441,15 +500,42 @@ namespace os_project
                             if (processes[i].remaining_time > quantum)
                             {
                                 processes[i].remaining_time -= quantum;
+        
+                                if (y % 2 != 0)
+                                    g.FillRectangle(sbwhite, x, 20, 100, 50);
+                                else
+                                    g.FillRectangle(sbyellow, x, 20, 100, 50);
+                                
+                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
+                                g.DrawString(processes[i].name, font, sblack, new PointF(x + 45, 30));
+                                g.DrawString((t - 1 + quantum).ToString(), font, sblack, new PointF(x + 80, 30));
                                 t += quantum;
+                 
+                                
+                                
+                                
+                                x += 100;
+                                y++;
                             }
                             else
                             {
+                                
+                                
+                               
+                                if (y % 2 != 0)
+                                    g.FillRectangle(sbwhite, x, 20, 100, 50);
+                                else
+                                    g.FillRectangle(sbyellow, x, 20, 100, 50);
+                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
+                                g.DrawString(processes[i].name, font, sblack, new PointF(x + 45, 30));
+                                g.DrawString((t - 1 + processes[i].remaining_time).ToString(), font, sblack, new PointF(x + 80, 30));
+                                
                                 t += processes[i].remaining_time;
-                                processes[i].remaining_time = 0;
                                 processes[i].waiting = t - processes[i].burst_time - processes[i].arrival_time - 1;
                                 rrsum += processes[i].waiting;
-
+                                processes[i].remaining_time = 0;
+                                x += 100;
+                                y++;
                             }
 
                         }
@@ -459,6 +545,11 @@ namespace os_project
 
                     if (flag == 0)
                         t++;
+
+
+                    
+
+                    
 
                     for (int i = 0; i < n; i++)
                     {
@@ -516,6 +607,7 @@ namespace os_project
 
         private void button3_Click_1(object sender, EventArgs e)
         {
+            num = 0;
             priority_label.Visible = false;
             priority_text.Visible = false;
             textBox3.Visible = false;
@@ -538,6 +630,16 @@ namespace os_project
         }
 
         private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -40,6 +40,10 @@ namespace os_project
             get;
             set;
         }
-
+        public string name
+        {
+            get;
+            set;
+        }
     }
 }

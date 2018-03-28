@@ -47,10 +47,10 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -276,6 +276,16 @@
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Maroon;
+            this.label10.Location = new System.Drawing.Point(200, 46);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(0, 30);
+            this.label10.TabIndex = 19;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.confirm);
@@ -313,22 +323,13 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Maroon;
-            this.label10.Location = new System.Drawing.Point(200, 46);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(0, 30);
-            this.label10.TabIndex = 19;
-            // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(281, 409);
+            this.panel1.Location = new System.Drawing.Point(156, 381);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(702, 68);
+            this.panel1.Size = new System.Drawing.Size(857, 97);
             this.panel1.TabIndex = 23;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // label11
             // 
@@ -336,11 +337,12 @@
             this.label11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.label11.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(130, 431);
+            this.label11.Location = new System.Drawing.Point(12, 434);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(138, 26);
             this.label11.TabIndex = 24;
             this.label11.Text = "Gantt Chart";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // Form1
             // 
