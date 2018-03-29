@@ -157,6 +157,14 @@ namespace os_project
 
         private void button2_Click(object sender, EventArgs e)
         {
+            panel1.AutoScroll = false;
+            panel1.VerticalScroll.Enabled = false;
+            panel1.VerticalScroll.Visible = false;
+            panel1.VerticalScroll.Maximum = 0;
+            panel1.AutoScroll = true;
+            //int newWidth = 2000;
+            //panel1.MaximumSize = new Size(newWidth, panel1.Height);
+            //panel1.Size = new Size(newWidth, panel1.Height);
             button2.Enabled = false;
             SolidBrush sbwhite = new SolidBrush(Color.Green);
             SolidBrush sblack = new SolidBrush(Color.Black);
@@ -388,41 +396,101 @@ namespace os_project
                 int remaining_time = 10000000;
                 process minprocess = processes[0];
                 int sjsum = 0;
-                int index = 0;
+                int index = -1;
+                int newindex = 0;
                 int n = num_process;
+                int inturrupt = 0 ;
+                int x = 20;
+                int y = 1;
+                int flagcount=9887;//عشان لما بروسيس تخلف اخليه بصفر واخلى الاندكس ميساويش النيو اندكس
+                int flag2 = 0;//عشان ارسم اول بروسيس
+                int flag = 0;// يعنى مفيش بروسيس موجودة
                 while(n>0)
                 {
+                    flag = 0;
+                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
                     for (int i = 0; i < n; i++)
                     {
                         if (processes[i].arrival_time <t)
                         {
+                            flag++;
                             if (processes[i].remaining_time < remaining_time)
                             {
-                                minprocess = processes[i];
-                                remaining_time = processes[i].remaining_time;
-                                index = i;
+                                   
+                                    minprocess = processes[i];
+                                    remaining_time = processes[i].remaining_time;
+                                    newindex = i;
                             }
+                            
                         }
-
                     }
-                 
+                    /*لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية*/
+                    if (flag == 0)
+                    {
+                        t++;
+                        continue;
+                    }
+                    /*دا عشان ارسم اول بروسيس ومش هخش هنا تانى*/
+                    if (flag2 == 0)
+                    {
+                        flag2++;
+                            if (y % 2 != 0)
+                                g.FillRectangle(sbwhite, x, 20, 100, 50);
+                            else
+                                g.FillRectangle(sbyellow, x, 20, 100, 50);
 
-                    processes[index].remaining_time--;
-                    if (processes[index].remaining_time <= 0)
+                            g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
+                            g.DrawString(processes[newindex].name, font, sblack, new PointF(x + 45, 30));
+                    }
+                    
+                    /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
+                    if (newindex != index)
+                    {
+                        if (inturrupt > 0)
+                        {
+                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 80, 30));
+                                x += 100;
+                                y++;
+                                if (y % 2 != 0)
+                                    g.FillRectangle(sbwhite, x, 20, 100, 50);
+                                else
+                                    g.FillRectangle(sbyellow, x, 20, 100, 50);
+
+                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
+                                g.DrawString(processes[newindex].name, font, sblack, new PointF(x + 45, 30));
+                        }
+                        inturrupt++;
+                    }
+                   
+                    processes[newindex].remaining_time--;
+                    if (processes[newindex].remaining_time <= 0)
                    {
-                       processes[index].waiting = t - processes[index].arrival_time - processes[index].burst_time;
-                       minprocess.waiting = processes[index].waiting;
-                       for (int i = index; i < n - 1; i++)
+                       processes[newindex].waiting = t - processes[newindex].arrival_time - processes[newindex].burst_time;
+                       minprocess.waiting = processes[newindex].waiting;
+                       for (int i = newindex; i < n - 1; i++)
                        {
                            processes[i] = processes[i + 1];
                        }
                        n--;
-
-                       remaining_time = 100000;
+                      newindex=0;
+                      flagcount = 0;
+                        if (n == 0)
+                       {
+                           g.DrawString(t.ToString(), font, sblack, new PointF(x + 80, 30));
+                       }
+                       
 
                        sjsum += minprocess.waiting;
                    }
                    t++;
+                   if (flagcount != 0)
+                       index = newindex;
+                   else
+                       index = 1000000;
+
+                   flagcount++;
+                   remaining_time = 100000;
+
                 }
                 label9.Text = ((float)sjsum / num_process).ToString();
 
@@ -435,49 +503,109 @@ namespace os_project
                 int t = 1;
                 int priority = 1000000;
                 process minprocess = processes[0];
-                int sjsum = 0;
-                int index = 0;
-                
+                int pjsum = 0;
+                int index = -1;
+                int newindex = 0;
                 int n = num_process;
+                int inturrupt = 0;
+                int x = 20;
+                int y = 1;
+                int flagcount = 9887;//عشان لما بروسيس تخلف اخليه بصفر واخلى الاندكس ميساويش النيو اندكس
+                int flag2 = 0;//عشان ارسم اول بروسيس
+                int flag = 0;// يعنى مفيش بروسيس موجودة
+                
                 while (n > 0)
                 {
-                    
+                    flag = 0;
+                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
                     for (int i = 0; i < n; i++)
                     {
                         if (processes[i].arrival_time < t)
                         {
-                            
+                            flag++;   
                             if (processes[i].priority < priority)
                             {
                                 minprocess = processes[i];
                                 priority = processes[i].priority;
-                                index = i;
+                                newindex = i;
                             }
                         }
 
                     }
-                    
-                    processes[index].remaining_time--;
-                    if (processes[index].remaining_time <= 0)
+                    /*لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية*/
+                    if (flag == 0)
                     {
-                        processes[index].waiting = t - processes[index].arrival_time - processes[index].burst_time;
-                        minprocess.waiting = processes[index].waiting;
-                        for (int i = index; i < n - 1; i++)
-                        {
-                            processes[i] = processes[i + 1];
-                        }
-                        n--;
-
-                        priority = 100000;
-
-                        sjsum += minprocess.waiting;
+                        t++;
+                        continue;
                     }
-                    t++;
+                    /*دا عشان ارسم اول بروسيس ومش هخش هنا تانى*/
+                    if (flag2 == 0)
+                    {
+                        flag2++;
+                        if (y % 2 != 0)
+                            g.FillRectangle(sbwhite, x, 20, 100, 50);
+                        else
+                            g.FillRectangle(sbyellow, x, 20, 100, 50);
+
+                        g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
+                        g.DrawString(processes[newindex].name, font, sblack, new PointF(x + 45, 30));
+                    }
+
+                    /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
+                    if (newindex != index)
+                    {
+                        if (inturrupt > 0)
+                        {
+                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 80, 30));
+                                x += 100;
+                                y++;
+                                if (y % 2 != 0)
+                                    g.FillRectangle(sbwhite, x, 20, 100, 50);
+                                else
+                                    g.FillRectangle(sbyellow, x, 20, 100, 50);
+
+                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
+                                g.DrawString(processes[newindex].name, font, sblack, new PointF(x + 45, 30));
+                        }
+                        inturrupt++;
+                    }
+                   
+                    processes[newindex].remaining_time--;
+                    if (processes[newindex].remaining_time <= 0)
+                   {
+                       processes[newindex].waiting = t - processes[newindex].arrival_time - processes[newindex].burst_time;
+                       minprocess.waiting = processes[newindex].waiting;
+                       for (int i = newindex; i < n - 1; i++)
+                       {
+                           processes[i] = processes[i + 1];
+                       }
+                       n--;
+                      newindex=0;
+                      flagcount = 0;
+                        if (n == 0)
+                       {
+                           g.DrawString(t.ToString(), font, sblack, new PointF(x + 80, 30));
+                       }
+                       
+
+                       pjsum += minprocess.waiting;
+                   }
+                   t++;
+                   if (flagcount != 0)
+                       index = newindex;
+                   else
+                       index = 1000000;
+
+                   flagcount++;
+                   priority = 100000;
+
                 }
-                label9.Text = ((float)sjsum / num_process).ToString();
+                
+                label9.Text = ((float)pjsum / num_process).ToString();
 
 
             }
+
 
 
 
@@ -607,6 +735,7 @@ namespace os_project
 
         private void button3_Click_1(object sender, EventArgs e)
         {
+            panel1.Invalidate();
             num = 0;
             priority_label.Visible = false;
             priority_text.Visible = false;
