@@ -211,7 +211,6 @@ namespace os_project
             if (comboBox1.Text == "FCFS")
             {
                 int extra = (num_process < 9) ? 100 : (800 / num_process);
-                int first = 1;
                 int flag;
                 int t = 1;
                 int mintime;
@@ -244,9 +243,9 @@ namespace os_project
                     else
                     g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                    if (first==1)
-                    { g.DrawString((t - 1).ToString(), font, sblack, new PointF(x , 80)); first = 0; } g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                    g.DrawString((t-1+processes[index].burst_time).ToString(), font, sblack, new PointF(x + (extra-6), 80));
+                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x+3 , 80)); 
+                    g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                    g.DrawString((t-1+processes[index].burst_time).ToString(), font, sblack, new PointF(x + (extra-15), 80));
 
                     t += processes[index].burst_time;
                     processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
@@ -272,7 +271,6 @@ namespace os_project
             else if (comboBox1.Text == "SJF (Non Preemptive)")
             {
                 int extra = (num_process < 9) ? 100 : (800 / num_process);
-                int first = 1;
                   int t = 1;
                   int flag;
                   int burst_time = 100000;
@@ -309,10 +307,9 @@ namespace os_project
                       else
                           g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                      if (first==1)
-                      { g.DrawString((t - 1).ToString(), font, sblack, new PointF(x , 80)); first = 0; }
+                      g.DrawString((t - 1).ToString(), font, sblack, new PointF(x+3 , 80)); 
                       g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                      g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra-6 , 80));
+                      g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra-15 , 80));
 
                    
 
@@ -338,7 +335,6 @@ namespace os_project
             else if (comboBox1.Text == "Priority (Non Preemptive)")
             {
                 int extra = (num_process < 9) ? 100 : (800 / num_process);
-                int first = 1;
                 int t = 1;
                 int flag;
                 int priority = 10000000;
@@ -377,10 +373,9 @@ namespace os_project
                     else
                         g.FillRectangle(sbyellow, x, 20, 100, 50);
 
-                    if (first == 1)
-                    { g.DrawString((t - 1).ToString(), font, sblack, new PointF(x, 80)); first = 0; }
+                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x+3, 80));
                     g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                    g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra - 6, 80));
+                    g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra - 15, 80));
 
                     t += processes[index].burst_time;
                     processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
