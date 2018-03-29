@@ -43,3 +43,4 @@ E:\courses\New folder (2)\operating-system-schedulers-implementation-with-gui\os
 E:\courses\New folder (2)\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os_project.Form1.resources
 E:\courses\New folder (2)\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os_project.Properties.Resources.resources
 E:\courses\New folder (2)\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os project.csproj.GenerateResource.Cache
+C:\Users\Ahmed\Documents\operating-system-schedulers-implementation-with-gui\os project\obj\Debug\os_project.chartcontrol.resources

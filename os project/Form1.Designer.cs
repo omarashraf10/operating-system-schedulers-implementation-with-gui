@@ -53,8 +53,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
+            this.chartcontrol1 = new os_project.chartcontrol();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -328,9 +330,10 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.AutoSize = true;
+            this.panel1.Controls.Add(this.chartcontrol1);
             this.panel1.Location = new System.Drawing.Point(156, 381);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(857, 97);
+            this.panel1.Size = new System.Drawing.Size(864, 97);
             this.panel1.TabIndex = 23;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -346,6 +349,13 @@
             this.label11.TabIndex = 24;
             this.label11.Text = "Gantt Chart";
             this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
+            // chartcontrol1
+            // 
+            this.chartcontrol1.Location = new System.Drawing.Point(3, 3);
+            this.chartcontrol1.Name = "chartcontrol1";
+            this.chartcontrol1.Size = new System.Drawing.Size(858, 91);
+            this.chartcontrol1.TabIndex = 25;
             // 
             // Form1
             // 
@@ -369,6 +379,7 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -401,6 +412,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label11;
+        private chartcontrol chartcontrol1;
     }
 }
 
