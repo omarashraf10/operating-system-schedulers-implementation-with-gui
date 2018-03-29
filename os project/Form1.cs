@@ -280,16 +280,17 @@ namespace os_project
                   int n = num_process;
                   int x = 20;
                   int y = 1;
-                  for (int j = 0; j < num_process;j++ )
+                  while(n>0)
                   {
                       flag = 0;
                       for (int i = 0; i < n; i++)
                       {
                           if (processes[i].arrival_time < t)
                           {
+                              flag++;
                               if (processes[i].burst_time < burst_time)
                               {
-                                  flag++;
+                                  
                                   minprocess = processes[i];
                                   burst_time = processes[i].burst_time;
                                   index = i;
@@ -345,16 +346,16 @@ namespace os_project
                 int x = 20;
                 int y = 1;
 
-                for (int j = 0; j < num_process; j++)
+                while(n>0)
                 {
                     flag = 0;
                     for (int i = 0; i < n; i++)
                     {
                         if (processes[i].arrival_time <t)
                        {
+                           flag++;
                             if (processes[i].priority < priority)
                             {
-                                flag++;
                                 bestprocess = processes[i];
                                 priority = processes[i].priority;
                                 index = i;
