@@ -166,12 +166,14 @@ namespace os_project
             //panel1.MaximumSize = new Size(newWidth, panel1.Height);
             //panel1.Size = new Size(newWidth, panel1.Height);
             button2.Enabled = false;
-            SolidBrush sbwhite = new SolidBrush(Color.Green);
+            SolidBrush sbwhite = new SolidBrush(Color.Aqua);
             SolidBrush sblack = new SolidBrush(Color.Black);
             SolidBrush sbyellow = new SolidBrush(Color.Yellow);
             Graphics g = panel1.CreateGraphics();
             FontFamily ff = new FontFamily("Arial");
             System.Drawing.Font font = new System.Drawing.Font(ff, 10);
+            System.Drawing.Font bigfont = new System.Drawing.Font(ff, 15);
+
             /*
             for (int i = 0; i < num_process; i++)
             {
@@ -205,9 +207,11 @@ namespace os_project
 
 
                 button3.Visible = true;
+
             if (comboBox1.Text == "FCFS")
             {
-
+                int extra = (num_process < 9) ? 100 : (800 / num_process);
+                int first = 1;
                 int flag;
                 int t = 1;
                 int mintime;
@@ -236,19 +240,19 @@ namespace os_project
                         continue;
                     }
                     if(y%2!=0)
-                    g.FillRectangle(sbwhite, x, 20, 100, 50);
+                    g.FillRectangle(sbwhite, x, 20, extra, 50);
                     else
-                    g.FillRectangle(sbyellow, x, 20, 100, 50);
+                    g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
-                    g.DrawString(processes[index].name, font, sblack, new PointF(x + 45, 30));
-                    g.DrawString((t-1+processes[index].burst_time).ToString(), font, sblack, new PointF(x + 80, 30));
+                    if (first==1)
+                    { g.DrawString((t - 1).ToString(), font, sblack, new PointF(x , 80)); first = 0; } g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                    g.DrawString((t-1+processes[index].burst_time).ToString(), font, sblack, new PointF(x + (extra-6), 80));
 
                     t += processes[index].burst_time;
                     processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
                     fsum += processes[index].waiting;
 
-                    x += 100;
+                    x += extra;
                     y++;
                         if (processes[index].remaining_time == 0)
                         {
@@ -267,6 +271,8 @@ namespace os_project
             
             else if (comboBox1.Text == "SJF (Non Preemptive)")
             {
+                int extra = (num_process < 9) ? 100 : (800 / num_process);
+                int first = 1;
                   int t = 1;
                   int flag;
                   int burst_time = 100000;
@@ -299,19 +305,22 @@ namespace os_project
                           continue;
                       }
                       if (y % 2 != 0)
-                          g.FillRectangle(sbwhite, x, 20, 100, 50);
+                          g.FillRectangle(sbwhite, x, 20, extra, 50);
                       else
-                          g.FillRectangle(sbyellow, x, 20, 100, 50);
+                          g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                      g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
-                      g.DrawString(processes[index].name, font, sblack, new PointF(x + 45, 30));
-                      g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + 80, 30));
+                      if (first==1)
+                      { g.DrawString((t - 1).ToString(), font, sblack, new PointF(x , 80)); first = 0; }
+                      g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                      g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra-6 , 80));
+
+                   
 
                       t += processes[index].burst_time;
                       processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
                       sjsum += processes[index].waiting;
 
-                      x += 100;
+                      x += extra;
                       y++;
                       for (int i = index; i < n-1; i++)
                       {
@@ -328,6 +337,8 @@ namespace os_project
             }
             else if (comboBox1.Text == "Priority (Non Preemptive)")
             {
+                int extra = (num_process < 9) ? 100 : (800 / num_process);
+                int first = 1;
                 int t = 1;
                 int flag;
                 int priority = 10000000;
@@ -366,15 +377,16 @@ namespace os_project
                     else
                         g.FillRectangle(sbyellow, x, 20, 100, 50);
 
-                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
-                    g.DrawString(processes[index].name, font, sblack, new PointF(x + 45, 30));
-                    g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + 80, 30));
+                    if (first == 1)
+                    { g.DrawString((t - 1).ToString(), font, sblack, new PointF(x, 80)); first = 0; }
+                    g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                    g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra - 6, 80));
 
                     t += processes[index].burst_time;
                     processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
                     psum += processes[index].waiting;
 
-                    x += 100;
+                    x += extra;
                     y++;
                     
                     for (int i = index; i < n - 1; i++)
@@ -389,6 +401,7 @@ namespace os_project
                 label9.Text = ((float)psum / num_process).ToString();
 
             }
+
 
             else if (comboBox1.Text == "SJF (Preemptive)")
             {
