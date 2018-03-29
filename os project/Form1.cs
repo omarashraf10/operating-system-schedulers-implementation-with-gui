@@ -609,97 +609,113 @@ namespace os_project
 
 
 
+
             else if (comboBox1.Text == "Round Robin")
             {
                 int flag = 0;
-                int t = 1;
+                int t = 0;
                 int rrsum = 0;
                 int n = num_process;
                 int x = 20;
                 int y = 1;
-                while (n > 0)
-                {
+                int numR;
+                int prevnumR=0;
+                List<process> Sortedprocesses = processes.OrderBy(o => o.arrival_time).ToList();
+               while (n > 0)
+               {
+                flag = 0;
+                numR = 0;
                     for (int i = 0; i < n; i++)
-                    {
-
-                        if (processes[i].arrival_time < t)
+                        if (Sortedprocesses[i].arrival_time <= t)
                         {
                             flag++;
-                            if (processes[i].remaining_time > quantum)
-                            {
-                                processes[i].remaining_time -= quantum;
+                            numR++;
+                        }
+                   if (flag == 0)
+                             t++;
+
+                   if (numR > prevnumR)
+                   {
+                       for (int i = numR - 1; i >= prevnumR; i--)
+                       {
+                           process tp = new process();
+                           tp = Sortedprocesses[i];
+                           for (int j = numR-1; j > 0; j--)
+                           {
+                               Sortedprocesses[j] = Sortedprocesses[j - 1];
+                           
+                           }
+                           Sortedprocesses[0] = tp;
+                       }
+                   }
+
+
+                for (int i = 0; i < numR; i++)
+                {
+                    if (Sortedprocesses[i].remaining_time > quantum)
+                        {
+                            Sortedprocesses[i].remaining_time -= quantum;
         
-                                if (y % 2 != 0)
-                                    g.FillRectangle(sbwhite, x, 20, 100, 50);
-                                else
-                                    g.FillRectangle(sbyellow, x, 20, 100, 50);
+                            if (y % 2 != 0)
+                                g.FillRectangle(sbwhite, x, 20, 100, 50);
+                            else
+                                g.FillRectangle(sbyellow, x, 20, 100, 50);
                                 
-                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
-                                g.DrawString(processes[i].name, font, sblack, new PointF(x + 45, 30));
-                                g.DrawString((t - 1 + quantum).ToString(), font, sblack, new PointF(x + 80, 30));
-                                t += quantum;
+                            g.DrawString((t).ToString(), font, sblack, new PointF(x + 5, 30));
+                            g.DrawString(Sortedprocesses[i].name, font, sblack, new PointF(x + 45, 30));
+                            g.DrawString((t + quantum).ToString(), font, sblack, new PointF(x + 80, 30));
+                            t += quantum;
                  
                                 
                                 
                                 
-                                x += 100;
-                                y++;
-                            }
-                            else
-                            {
+                            x += 100;
+                            y++;
+                        }
+                        else
+                        {
                                 
                                 
                                
-                                if (y % 2 != 0)
-                                    g.FillRectangle(sbwhite, x, 20, 100, 50);
-                                else
-                                    g.FillRectangle(sbyellow, x, 20, 100, 50);
-                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
-                                g.DrawString(processes[i].name, font, sblack, new PointF(x + 45, 30));
-                                g.DrawString((t - 1 + processes[i].remaining_time).ToString(), font, sblack, new PointF(x + 80, 30));
-                                
-                                t += processes[i].remaining_time;
-                                processes[i].waiting = t - processes[i].burst_time - processes[i].arrival_time - 1;
-                                rrsum += processes[i].waiting;
-                                processes[i].remaining_time = 0;
-                                x += 100;
-                                y++;
-                            }
+                            if (y % 2 != 0)
+                                g.FillRectangle(sbwhite, x, 20, 100, 50);
+                            else
+                                g.FillRectangle(sbyellow, x, 20, 100, 50);
+                            g.DrawString((t).ToString(), font, sblack, new PointF(x + 5, 30));
+                            g.DrawString(Sortedprocesses[i].name, font, sblack, new PointF(x + 45, 30));
+                            g.DrawString((t+ Sortedprocesses[i].remaining_time).ToString(), font, sblack, new PointF(x + 80, 30));
 
+                            t += Sortedprocesses[i].remaining_time;
+                            Sortedprocesses[i].waiting = t - Sortedprocesses[i].burst_time - Sortedprocesses[i].arrival_time;
+                            rrsum += Sortedprocesses[i].waiting;
+                            Sortedprocesses[i].remaining_time = 0;
+                            x += 100;
+                            y++;
                         }
 
-
-                    }
-
-                    if (flag == 0)
-                        t++;
-
-
-                    
-
-                    
-
-                    for (int i = 0; i < n; i++)
-                    {
-                        if (processes[i].remaining_time == 0)
-                        {
-                            for (int j = i; j < n - 1; j++)
-                            {
-                                processes[j] = processes[j + 1];
-                            }
-                            n--;
-                            i--;
-                        }
-
-                    }
+                        
 
 
                 }
 
-                label9.Text = ((float)rrsum / num_process).ToString();
+                for (int i = 0; i < numR; i++)
+                {
+                    if (Sortedprocesses[i].remaining_time <= 0)
+                    {
+                        Sortedprocesses.RemoveAt(i);
+                        n--;
+                        i--;
+                        numR--;
+                    }
+                }
+
+                prevnumR = numR;
             }
 
-
+            label9.Text = ((float)rrsum / num_process).ToString();
+        
+            
+            }
     }
 
 
@@ -769,6 +785,11 @@ namespace os_project
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
         {
 
         }

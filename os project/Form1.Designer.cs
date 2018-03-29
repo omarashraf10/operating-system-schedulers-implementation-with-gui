@@ -223,6 +223,7 @@
             this.label8.Size = new System.Drawing.Size(290, 52);
             this.label8.TabIndex = 15;
             this.label8.Text = "The Average Waiting Time \r\nis :";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // confirm
             // 
