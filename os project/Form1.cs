@@ -414,6 +414,97 @@ namespace os_project
                 int flagcount=9887;//عشان لما بروسيس تخلف اخليه بصفر واخلى الاندكس ميساويش النيو اندكس
                 int flag2 = 0;//عشان ارسم اول بروسيس
                 int flag = 0;// يعنى مفيش بروسيس موجودة
+             /* هعمل الكود مرتين مرة عشان اعرف عدد المستطيلات اللى هرسمها ومرة عشان ارسم الشارت كلها واحسب التايم*/
+                List<process> countlist = new List <process>();
+                foreach (process pc in processes)
+                {
+                    countlist.Add(new process(pc));
+                }
+                int count=0;
+                while(n>0)
+                {
+                    flag = 0;
+                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (countlist[i].arrival_time <t)
+                        {
+                            flag++;
+                            if (countlist[i].remaining_time < remaining_time)
+                            {
+                                    minprocess = countlist[i];
+                                    remaining_time = countlist[i].remaining_time;
+                                    newindex = i;
+                            }
+                            
+                        }
+                    }
+                    /*لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية*/
+                    if (flag == 0)
+                    {
+                        t++;
+                        continue;
+                    }
+                    /*دا عشان ارسم اول بروسيس ومش هخش هنا تانى*/
+                    if (flag2 == 0)
+                    {
+                        flag2++;
+                            count++;
+                    }
+                    
+                    /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
+                    if (newindex != index)
+                    {
+                        if (inturrupt > 0)
+                        {
+                               count++;
+                        }
+                        inturrupt++;
+                    }
+
+                    countlist[newindex].remaining_time--;
+                    if (countlist[newindex].remaining_time <= 0)
+                   {
+                       countlist[newindex].waiting = t - countlist[newindex].arrival_time - countlist[newindex].burst_time;
+                       minprocess.waiting = countlist[newindex].waiting;
+                       for (int i = newindex; i < n - 1; i++)
+                       {
+                           countlist[i] = countlist[i + 1];
+                       }
+                       n--;
+                      newindex=0;
+                      flagcount = 0;
+                        if (n == 0)
+                       {
+                       };
+                       
+
+                       sjsum += minprocess.waiting;
+                   }
+                   t++;
+                   if (flagcount != 0)
+                       index = newindex;
+                   else
+                       index = 1000000;
+
+                   flagcount++;
+                   remaining_time = 100000;
+
+                }
+
+                 t = 1;
+                remaining_time = 10000000;
+                minprocess = processes[0];
+                sjsum = 0;
+                index = -1;
+                newindex = 0;
+                n = num_process;
+                inturrupt = 0;
+                x = 20;
+                y = 1;
+                flagcount = 9887;//عشان لما بروسيس تخلف اخليه بصفر واخلى الاندكس ميساويش النيو اندكس
+                flag2 = 0;//عشان ارسم اول بروسيس
+                flag = 0;// يعنى مفيش بروسيس موجودة
                 while(n>0)
                 {
                     flag = 0;
@@ -507,6 +598,14 @@ namespace os_project
             }
 
 
+
+
+
+
+
+
+
+
             else if (comboBox1.Text == "Priority (Preemptive)")
             {
                 int t = 1;
@@ -522,6 +621,98 @@ namespace os_project
                 int flagcount = 9887;//عشان لما بروسيس تخلف اخليه بصفر واخلى الاندكس ميساويش النيو اندكس
                 int flag2 = 0;//عشان ارسم اول بروسيس
                 int flag = 0;// يعنى مفيش بروسيس موجودة
+                List<process> countlist = new List<process>();
+                foreach (process pc in processes)
+                {
+                    countlist.Add(new process(pc));
+                }
+                int count = 0;
+                while (n > 0)
+                {
+                    flag = 0;
+                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (countlist[i].arrival_time < t)
+                        {
+                            flag++;
+                            if (countlist[i].priority < priority)
+                            {
+                                minprocess = countlist[i];
+                                priority = countlist[i].priority;
+                                newindex = i;
+                            }
+                        }
+
+                    }
+                    /*لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية*/
+                    if (flag == 0)
+                    {
+                        t++;
+                        continue;
+                    }
+                    /*دا عشان ارسم اول بروسيس ومش هخش هنا تانى*/
+                    if (flag2 == 0)
+                    {
+                        flag2++;
+                        count++;
+                    }
+
+                    /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
+                    if (newindex != index)
+                    {
+                        if (inturrupt > 0)
+                        {
+                            count++;
+                        }
+                        inturrupt++;
+                    }
+
+                    countlist[newindex].remaining_time--;
+                    if (countlist[newindex].remaining_time <= 0)
+                    {
+                        countlist[newindex].waiting = t - countlist[newindex].arrival_time - countlist[newindex].burst_time;
+                        minprocess.waiting = countlist[newindex].waiting;
+                        for (int i = newindex; i < n - 1; i++)
+                        {
+                            countlist[i] = countlist[i + 1];
+                        }
+                        n--;
+                        newindex = 0;
+                        flagcount = 0;
+                        if (n == 0)
+                        {
+
+                        };
+
+
+                        pjsum += minprocess.waiting;
+                    }
+                    t++;
+                    if (flagcount != 0)
+                        index = newindex;
+                    else
+                        index = 1000000;
+
+                    flagcount++;
+                    priority = 100000;
+
+                }
+
+
+                 t = 1;
+                 priority = 1000000;
+                 minprocess = processes[0];
+                 pjsum = 0;
+                 index = -1;
+                 newindex = 0;
+                 n = num_process;
+                 inturrupt = 0;
+                 x = 20;
+                 y = 1;
+                 flagcount = 9887;//عشان لما بروسيس تخلف اخليه بصفر واخلى الاندكس ميساويش النيو اندكس
+                 flag2 = 0;//عشان ارسم اول بروسيس
+                 flag = 0;// يعنى مفيش بروسيس موجودة
                 
                 while (n > 0)
                 {
@@ -629,8 +820,87 @@ namespace os_project
                 int y = 1;
                 int numR;
                 int prevnumR=0;
+                int count = 0;
                 List<process> Sortedprocesses = processes.OrderBy(o => o.arrival_time).ToList();
-               while (n > 0)
+                List<process> countlist = new List<process>();
+                foreach (process pc in Sortedprocesses)
+                {
+                    countlist.Add(new process(pc));
+                }
+             while (n > 0)
+               {
+                flag = 0;
+                numR = 0;
+                    for (int i = 0; i < n; i++)
+                        if (countlist[i].arrival_time <= t)
+                        {
+                            flag++;
+                            numR++;
+                        }
+                   if (flag == 0)
+                             t++;
+
+                   if (numR > prevnumR)
+                   {
+                       for (int i = numR - 1; i >= prevnumR; i--)
+                       {
+                           process tp = new process();
+                           tp = countlist[i];
+                           for (int j = numR-1; j > 0; j--)
+                           {
+                               countlist[j] = countlist[j - 1];
+                           
+                           }
+                           countlist[0] = tp;
+                       }
+                   }
+
+
+                for (int i = 0; i < numR; i++)
+                {
+                    if (countlist[i].remaining_time > quantum)
+                        {
+                            countlist[i].remaining_time -= quantum;
+
+                            count++;
+              
+                            x += 100;
+                            y++;
+                        }
+                        else
+                    {
+                            count++;
+                            t += countlist[i].remaining_time;
+                            countlist[i].waiting = t - countlist[i].burst_time - countlist[i].arrival_time;
+                            rrsum += countlist[i].waiting;
+                            countlist[i].remaining_time = 0;
+                            x += 100;
+                            y++;
+                        }
+             }
+
+                for (int i = 0; i < numR; i++)
+                {
+                    if (countlist[i].remaining_time <= 0)
+                    {
+                        countlist.RemoveAt(i);
+                        n--;
+                        i--;
+                        numR--;
+                    }
+                }
+
+                prevnumR = numR;
+            }
+             flag = 0;
+             t = 0;
+             rrsum = 0;
+             n = num_process;
+             x = 20;
+             y = 1;
+             numR=0;
+             prevnumR = 0;
+        while (n > 0)
                {
                 flag = 0;
                 numR = 0;
@@ -726,19 +996,6 @@ namespace os_project
             
             }
     }
-
-
-    
-
-
-
-
-
-
-
-
-
-
         private void priority_text_TextChanged(object sender, EventArgs e)
         {
 
