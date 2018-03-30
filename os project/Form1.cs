@@ -30,10 +30,10 @@ namespace os_project
         {
 
         }
-
+        Bitmap image;
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            image = new Bitmap(pictureBox1.ClientSize.Width, pictureBox1.ClientSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -154,60 +154,21 @@ namespace os_project
 
             }
         }
-
+        Graphics g;
         private void button2_Click(object sender, EventArgs e)
         {
-            panel1.AutoScroll = false;
-            panel1.VerticalScroll.Enabled = false;
-            panel1.VerticalScroll.Visible = false;
-            panel1.VerticalScroll.Maximum = 0;
-            panel1.AutoScroll = true;
-            //int newWidth = 2000;
-            //panel1.MaximumSize = new Size(newWidth, panel1.Height);
-            //panel1.Size = new Size(newWidth, panel1.Height);
             button2.Enabled = false;
             SolidBrush sbwhite = new SolidBrush(Color.Aqua);
             SolidBrush sblack = new SolidBrush(Color.Black);
             SolidBrush sbyellow = new SolidBrush(Color.Yellow);
-            Graphics g = panel1.CreateGraphics();
             FontFamily ff = new FontFamily("Arial");
             System.Drawing.Font font = new System.Drawing.Font(ff, 10);
             System.Drawing.Font bigfont = new System.Drawing.Font(ff, 15);
-
-            /*
-            for (int i = 0; i < num_process; i++)
-            {
-                if (i % num_process == 0)
-                {
-                    g.FillRectangle(sbred, 20 * i, 20, 100, 50);
-                    g.DrawString("P1", font, sbwhite, new PointF(20 * i + 40, 30));
-                }
-                else if (i % num_process == 1)
-                {
-                    g.FillRectangle(sbgreen, 20 * (i - 1) + 100, 20, 100, 50);
-                    g.DrawString("P2", font, sbwhite, new PointF(20 * (i-1)+100 + 40, 30));
-
-                }
-                else if (i % num_process == 2)
-                {
-                    g.FillRectangle(sbblue, 20 * (i - 2) + 100 + 100, 20, 100, 50);
-                    g.DrawString("P3", font, sbwhite, new PointF(20 * (i-2) +100+100+ 40, 30));
-
-                }
-
-                else if (i % num_process == 3)
-                {
-                    g.FillRectangle(sbpink, 20 * (i - 3) + 100 + 100+100, 20, 100, 50);
-                    g.DrawString("P4", font, sbwhite, new PointF(20 * (i - 3) +100+ 100 + 100 + 40, 30));
-
-                }
-
-           }
-            */
+            button3.Visible = true;
 
 
-                button3.Visible = true;
-
+            g = Graphics.FromImage(image);
+            g.Clear(Color.WhiteSmoke);
             if (comboBox1.Text == "FCFS")
             {
                 int extra = (num_process < 9) ? 100 : (800 / num_process);
@@ -263,6 +224,8 @@ namespace os_project
                         }
                        
                 }
+
+                pictureBox1.Invalidate();
                 label9.Text = ((float)fsum / num_process).ToString();
             }
 
@@ -270,7 +233,7 @@ namespace os_project
             
             else if (comboBox1.Text == "SJF (Non Preemptive)")
             {
-                int extra = (num_process < 9) ? 100 : (800 / num_process);
+                  int extra = (num_process < 9) ? 100 : (800 / num_process);
                   int t = 1;
                   int flag;
                   int burst_time = 100000;
@@ -329,6 +292,7 @@ namespace os_project
 
                           n--;
                   }
+                  pictureBox1.Invalidate();
                   label9.Text = ((float)sjsum/num_process).ToString();
             
          
@@ -370,13 +334,11 @@ namespace os_project
                     }
 
                     if (y % 2 != 0)
-                        g.FillRectangle(sbwhite, x, 20, 100, 50);
+                        g.FillRectangle(sbwhite, x, 20, extra, 50);
                     else
-                        g.FillRectangle(sbyellow, x, 20, 100, 50);
+                        g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x+3, 80));
-                    g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                    g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                    
 
                     t += processes[index].burst_time;
                     processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
@@ -394,6 +356,7 @@ namespace os_project
 
                     n--;
                 }
+                pictureBox1.Invalidate();
                 label9.Text = ((float)psum / num_process).ToString();
 
             }
@@ -492,7 +455,9 @@ namespace os_project
 
                 }
 
-                 t = 1;
+
+                int extra = (count < 9) ? 100 : (800 / count);
+                t = 1;
                 remaining_time = 10000000;
                 minprocess = processes[0];
                 sjsum = 0;
@@ -535,29 +500,33 @@ namespace os_project
                     {
                         flag2++;
                             if (y % 2 != 0)
-                                g.FillRectangle(sbwhite, x, 20, 100, 50);
+                                g.FillRectangle(sbwhite, x, 20, extra, 50);
                             else
-                                g.FillRectangle(sbyellow, x, 20, 100, 50);
+                                g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                            g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
-                            g.DrawString(processes[newindex].name, font, sblack, new PointF(x + 45, 30));
+                            g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
+                            g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                     }
-                    
+                    /*
+                            g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
+                            g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                            g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+
+                    */
                     /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
                     if (newindex != index)
                     {
                         if (inturrupt > 0)
                         {
-                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 80, 30));
-                                x += 100;
+                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                                x += extra;
                                 y++;
                                 if (y % 2 != 0)
-                                    g.FillRectangle(sbwhite, x, 20, 100, 50);
+                                    g.FillRectangle(sbwhite, x, 20, extra, 50);
                                 else
-                                    g.FillRectangle(sbyellow, x, 20, 100, 50);
-
-                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
-                                g.DrawString(processes[newindex].name, font, sblack, new PointF(x + 45, 30));
+                                    g.FillRectangle(sbyellow, x, 20, extra, 50);
+                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
+                                g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                         }
                         inturrupt++;
                     }
@@ -576,7 +545,7 @@ namespace os_project
                       flagcount = 0;
                         if (n == 0)
                        {
-                           g.DrawString(t.ToString(), font, sblack, new PointF(x + 80, 30));
+                           g.DrawString(t.ToString(), font, sblack, new PointF(x + extra - 15, 80));
                        }
                        
 
@@ -592,9 +561,8 @@ namespace os_project
                    remaining_time = 100000;
 
                 }
+                pictureBox1.Invalidate();
                 label9.Text = ((float)sjsum / num_process).ToString();
-
-
             }
 
 
@@ -699,7 +667,7 @@ namespace os_project
 
                 }
 
-
+                 int extra = (count < 9) ? 100 : (800 / count);
                  t = 1;
                  priority = 1000000;
                  minprocess = processes[0];
@@ -743,29 +711,34 @@ namespace os_project
                     {
                         flag2++;
                         if (y % 2 != 0)
-                            g.FillRectangle(sbwhite, x, 20, 100, 50);
+                            g.FillRectangle(sbwhite, x, 20, extra, 50);
                         else
-                            g.FillRectangle(sbyellow, x, 20, 100, 50);
+                            g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                        g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
-                        g.DrawString(processes[newindex].name, font, sblack, new PointF(x + 45, 30));
+                        g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
+                        g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                     }
+                    /*
+                         g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
+                         g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                         g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
 
+                 */
                     /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
                     if (newindex != index)
                     {
                         if (inturrupt > 0)
                         {
-                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 80, 30));
-                                x += 100;
+                            g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                            x += extra;
                                 y++;
                                 if (y % 2 != 0)
-                                    g.FillRectangle(sbwhite, x, 20, 100, 50);
+                                    g.FillRectangle(sbwhite, x, 20, extra, 50);
                                 else
-                                    g.FillRectangle(sbyellow, x, 20, 100, 50);
+                                    g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 5, 30));
-                                g.DrawString(processes[newindex].name, font, sblack, new PointF(x + 45, 30));
+                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
+                                g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                         }
                         inturrupt++;
                     }
@@ -784,7 +757,7 @@ namespace os_project
                       flagcount = 0;
                         if (n == 0)
                        {
-                           g.DrawString(t.ToString(), font, sblack, new PointF(x + 80, 30));
+                           g.DrawString(t.ToString(), font, sblack, new PointF(x + extra - 15, 80));
                        }
                        
 
@@ -800,7 +773,8 @@ namespace os_project
                    priority = 100000;
 
                 }
-                
+
+                pictureBox1.Invalidate();
                 label9.Text = ((float)pjsum / num_process).ToString();
 
 
@@ -892,6 +866,15 @@ namespace os_project
 
                 prevnumR = numR;
             }
+
+             /*
+                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
+                    g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+
+            */
+             int extra = (count < 9) ? 100 : (800 / count);
+
              flag = 0;
              t = 0;
              rrsum = 0;
@@ -936,19 +919,19 @@ namespace os_project
                             Sortedprocesses[i].remaining_time -= quantum;
         
                             if (y % 2 != 0)
-                                g.FillRectangle(sbwhite, x, 20, 100, 50);
+                                g.FillRectangle(sbwhite, x, 20, extra, 50);
                             else
-                                g.FillRectangle(sbyellow, x, 20, 100, 50);
-                                
-                            g.DrawString((t).ToString(), font, sblack, new PointF(x + 5, 30));
-                            g.DrawString(Sortedprocesses[i].name, font, sblack, new PointF(x + 45, 30));
-                            g.DrawString((t + quantum).ToString(), font, sblack, new PointF(x + 80, 30));
+                                g.FillRectangle(sbyellow, x, 20, extra, 50);
+
+                            g.DrawString((t).ToString(), font, sblack, new PointF(x + 3, 80));
+                            g.DrawString(Sortedprocesses[i].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                            g.DrawString((t + quantum).ToString(), font, sblack, new PointF(x + extra - 15, 80));
                             t += quantum;
                  
                                 
                                 
                                 
-                            x += 100;
+                            x += extra;
                             y++;
                         }
                         else
@@ -957,18 +940,20 @@ namespace os_project
                                 
                                
                             if (y % 2 != 0)
-                                g.FillRectangle(sbwhite, x, 20, 100, 50);
+                                g.FillRectangle(sbwhite, x, 20, extra, 50);
                             else
-                                g.FillRectangle(sbyellow, x, 20, 100, 50);
-                            g.DrawString((t).ToString(), font, sblack, new PointF(x + 5, 30));
-                            g.DrawString(Sortedprocesses[i].name, font, sblack, new PointF(x + 45, 30));
-                            g.DrawString((t+ Sortedprocesses[i].remaining_time).ToString(), font, sblack, new PointF(x + 80, 30));
+                                g.FillRectangle(sbyellow, x, 20, extra, 50);
+
+                            g.DrawString((t).ToString(), font, sblack, new PointF(x + 3, 80));
+                            g.DrawString(Sortedprocesses[i].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                            g.DrawString((t+ Sortedprocesses[i].remaining_time).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+
 
                             t += Sortedprocesses[i].remaining_time;
                             Sortedprocesses[i].waiting = t - Sortedprocesses[i].burst_time - Sortedprocesses[i].arrival_time;
                             rrsum += Sortedprocesses[i].waiting;
                             Sortedprocesses[i].remaining_time = 0;
-                            x += 100;
+                            x += extra;
                             y++;
                         }
 
@@ -990,7 +975,7 @@ namespace os_project
 
                 prevnumR = numR;
             }
-
+            pictureBox1.Invalidate();
             label9.Text = ((float)rrsum / num_process).ToString();
         
             
@@ -1017,7 +1002,11 @@ namespace os_project
 
         private void button3_Click_1(object sender, EventArgs e)
         {
-            panel1.Invalidate();
+            //pictureBox1.Image = null;
+            g.Clear(Color.WhiteSmoke);
+            pictureBox1.Invalidate();
+
+           // pictureBox1.InitialImage = null;
             num = 0;
             priority_label.Visible = false;
             priority_text.Visible = false;
@@ -1058,6 +1047,11 @@ namespace os_project
         private void label8_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawImage(image, 0, 0, image.Width, image.Height);
         }
     }
 }
