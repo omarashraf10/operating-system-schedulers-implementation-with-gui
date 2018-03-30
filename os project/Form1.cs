@@ -469,6 +469,7 @@ namespace os_project
                 inturrupt = 0;
                 x = 20;
                 y = 1;
+                int tend=0;
                 flagcount = 9887;//عشان لما بروسيس تخلف اخليه بصفر واخلى الاندكس ميساويش النيو اندكس
                 flag2 = 0;//عشان ارسم اول بروسيس
                 flag = 0;// يعنى مفيش بروسيس موجودة
@@ -520,7 +521,7 @@ namespace os_project
                     {
                         if (inturrupt > 0)
                         {
-                                g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                                g.DrawString((tend - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
                                 x += extra;
                                 y++;
                                 if (y % 2 != 0)
@@ -535,25 +536,27 @@ namespace os_project
                    
                     processes[newindex].remaining_time--;
                     if (processes[newindex].remaining_time <= 0)
-                   {
-                       processes[newindex].waiting = t - processes[newindex].arrival_time - processes[newindex].burst_time;
-                       minprocess.waiting = processes[newindex].waiting;
-                       for (int i = newindex; i < n - 1; i++)
-                       {
-                           processes[i] = processes[i + 1];
-                       }
-                       n--;
-                      newindex=0;
-                      flagcount = 0;
+                    {
+                        processes[newindex].waiting = t - processes[newindex].arrival_time - processes[newindex].burst_time;
+                        minprocess.waiting = processes[newindex].waiting;
+                        tend = t;
+                        processes.RemoveAt(newindex);
+                        n--;
+                        newindex = 0;
+                        flagcount = 0;
                         if (n == 0)
-                       {
-                           g.DrawString(t.ToString(), font, sblack, new PointF(x + extra - 15, 80));
-                       }
-                       
+                        {
+                            g.DrawString(t.ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                        }
 
-                       sjsum += minprocess.waiting;
-                   }
-                   t++;
+
+                        sjsum += minprocess.waiting;
+                    }
+                    else
+                    {
+                        tend = t + 1;
+                    }
+                    t++;
                    if (flagcount != 0)
                        index = newindex;
                    else
@@ -680,6 +683,7 @@ namespace os_project
                  inturrupt = 0;
                  x = 20;
                  y = 1;
+                 int tend = 0;
                  flagcount = 9887;//عشان لما بروسيس تخلف اخليه بصفر واخلى الاندكس ميساويش النيو اندكس
                  flag2 = 0;//عشان ارسم اول بروسيس
                  flag = 0;// يعنى مفيش بروسيس موجودة
@@ -731,7 +735,7 @@ namespace os_project
                     {
                         if (inturrupt > 0)
                         {
-                            g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                            g.DrawString((tend - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
                             x += extra;
                                 y++;
                                 if (y % 2 != 0)
@@ -747,24 +751,25 @@ namespace os_project
                    
                     processes[newindex].remaining_time--;
                     if (processes[newindex].remaining_time <= 0)
-                   {
-                       processes[newindex].waiting = t - processes[newindex].arrival_time - processes[newindex].burst_time;
-                       minprocess.waiting = processes[newindex].waiting;
-                       for (int i = newindex; i < n - 1; i++)
-                       {
-                           processes[i] = processes[i + 1];
-                       }
-                       n--;
-                      newindex=0;
-                      flagcount = 0;
+                    {
+                        processes[newindex].waiting = t - processes[newindex].arrival_time - processes[newindex].burst_time;
+                        minprocess.waiting = processes[newindex].waiting;
+                        tend = t;
+                        processes.RemoveAt(newindex);
+                        n--;
+                        newindex = 0;
+                        flagcount = 0;
                         if (n == 0)
-                       {
-                           g.DrawString(t.ToString(), font, sblack, new PointF(x + extra - 15, 80));
-                       }
-                       
+                        {
+                            g.DrawString(t.ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                        }
 
-                       pjsum += minprocess.waiting;
-                   }
+
+                        pjsum += minprocess.waiting;
+                    }
+                    else {
+                        tend = t + 1;
+                    }
                    t++;
                    if (flagcount != 0)
                        index = newindex;
