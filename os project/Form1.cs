@@ -163,7 +163,7 @@ namespace os_project
             SolidBrush sbyellow = new SolidBrush(Color.Yellow);
             FontFamily ff = new FontFamily("Arial");
             System.Drawing.Font font = new System.Drawing.Font(ff, 10);
-            System.Drawing.Font bigfont = new System.Drawing.Font(ff, 15);
+            System.Drawing.Font bigfont = new System.Drawing.Font(ff, 12);
             button3.Visible = true;
 
 
@@ -338,8 +338,10 @@ namespace os_project
                     else
                         g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                    
 
+                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
+                    g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                    g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra - 15, 80));
                     t += processes[index].burst_time;
                     processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
                     psum += processes[index].waiting;
@@ -801,71 +803,66 @@ namespace os_project
                 {
                     countlist.Add(new process(pc));
                 }
-             while (n > 0)
-               {
-                flag = 0;
-                numR = 0;
+                while (n > 0)
+                {
+                    flag = 0;
+                    numR = 0;
                     for (int i = 0; i < n; i++)
                         if (countlist[i].arrival_time <= t)
                         {
                             flag++;
                             numR++;
                         }
-                   if (flag == 0)
-                             t++;
-
-                   if (numR > prevnumR)
-                   {
-                       for (int i = numR - 1; i >= prevnumR; i--)
-                       {
-                           process tp = new process();
-                           tp = countlist[i];
-                           for (int j = numR-1; j > 0; j--)
-                           {
-                               countlist[j] = countlist[j - 1];
-                           
-                           }
-                           countlist[0] = tp;
-                       }
-                   }
+                    if (flag == 0)
+                    {
+                        t++;
+                        continue;
+                    }
 
 
-                for (int i = 0; i < numR; i++)
-                {
-                    if (countlist[i].remaining_time > quantum)
+                    if (countlist[0].remaining_time > quantum)
+                    {
+                        countlist[0].remaining_time -= quantum;
+
+                        count++;
+                        t += quantum;
+                        numR = 0;
+                        for (int i = 0; i < n; i++)
+                            if (countlist[i].arrival_time <= t)
+                            {
+                                flag++;
+                                numR++;
+                            }
+
+                        process tp = new process();
+                        tp = countlist[0];
+                        for (int i = 0; i < numR - 1; i++)
                         {
-                            countlist[i].remaining_time -= quantum;
+                            countlist[i] = countlist[i + 1];
 
-                            count++;
-              
-                            x += 100;
-                            y++;
                         }
-                        else
-                    {
-                            count++;
-                            t += countlist[i].remaining_time;
-                            countlist[i].waiting = t - countlist[i].burst_time - countlist[i].arrival_time;
-                            rrsum += countlist[i].waiting;
-                            countlist[i].remaining_time = 0;
-                            x += 100;
-                            y++;
-                        }
-             }
+                        countlist[numR - 1] = tp;
 
-                for (int i = 0; i < numR; i++)
-                {
-                    if (countlist[i].remaining_time <= 0)
+
+
+                       
+                    }
+                    else
                     {
-                        countlist.RemoveAt(i);
+
+
+
+                        count++;
+                        t += countlist[0].remaining_time;
+                        countlist[0].waiting = t - countlist[0].burst_time - countlist[0].arrival_time;
+                        rrsum += countlist[0].waiting;
+                        countlist[0].remaining_time = 0;
+                        countlist.RemoveAt(0);
                         n--;
-                        i--;
                         numR--;
                     }
-                }
 
-                prevnumR = numR;
-            }
+                }
 
              /*
                     g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
@@ -893,30 +890,16 @@ namespace os_project
                             flag++;
                             numR++;
                         }
-                   if (flag == 0)
-                             t++;
-
-                   if (numR > prevnumR)
-                   {
-                       for (int i = numR - 1; i >= prevnumR; i--)
-                       {
-                           process tp = new process();
-                           tp = Sortedprocesses[i];
-                           for (int j = numR-1; j > 0; j--)
-                           {
-                               Sortedprocesses[j] = Sortedprocesses[j - 1];
-                           
-                           }
-                           Sortedprocesses[0] = tp;
-                       }
-                   }
-
-
-                for (int i = 0; i < numR; i++)
-                {
-                    if (Sortedprocesses[i].remaining_time > quantum)
+                    if (flag == 0)
+                    {
+                        t++;
+                        continue;
+                    }
+                 
+                  
+                    if (Sortedprocesses[0].remaining_time > quantum)
                         {
-                            Sortedprocesses[i].remaining_time -= quantum;
+                            Sortedprocesses[0].remaining_time -= quantum;
         
                             if (y % 2 != 0)
                                 g.FillRectangle(sbwhite, x, 20, extra, 50);
@@ -924,11 +907,26 @@ namespace os_project
                                 g.FillRectangle(sbyellow, x, 20, extra, 50);
 
                             g.DrawString((t).ToString(), font, sblack, new PointF(x + 3, 80));
-                            g.DrawString(Sortedprocesses[i].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                            g.DrawString(Sortedprocesses[0].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                             g.DrawString((t + quantum).ToString(), font, sblack, new PointF(x + extra - 15, 80));
                             t += quantum;
-                 
-                                
+                            numR = 0;
+                            for (int i = 0; i < n; i++)
+                                if (Sortedprocesses[i].arrival_time <= t)
+                                {
+                                    flag++;
+                                    numR++;
+                                }
+                            
+                                process tp = new process();
+                                tp = Sortedprocesses[0];
+                                for (int i = 0; i <numR-1; i++)
+                                {
+                                    Sortedprocesses[i] = Sortedprocesses[i+1];
+
+                                }
+                                Sortedprocesses[numR-1] = tp;
+                            
                                 
                                 
                             x += extra;
@@ -945,35 +943,23 @@ namespace os_project
                                 g.FillRectangle(sbyellow, x, 20, extra, 50);
 
                             g.DrawString((t).ToString(), font, sblack, new PointF(x + 3, 80));
-                            g.DrawString(Sortedprocesses[i].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                            g.DrawString((t+ Sortedprocesses[i].remaining_time).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                            g.DrawString(Sortedprocesses[0].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                            g.DrawString((t+ Sortedprocesses[0].remaining_time).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                            
 
-
-                            t += Sortedprocesses[i].remaining_time;
-                            Sortedprocesses[i].waiting = t - Sortedprocesses[i].burst_time - Sortedprocesses[i].arrival_time;
-                            rrsum += Sortedprocesses[i].waiting;
-                            Sortedprocesses[i].remaining_time = 0;
+                            t += Sortedprocesses[0].remaining_time;
+                            Sortedprocesses[0].waiting = t - Sortedprocesses[0].burst_time - Sortedprocesses[0].arrival_time;
+                            rrsum += Sortedprocesses[0].waiting;
+                            Sortedprocesses[0].remaining_time = 0;
+                            Sortedprocesses.RemoveAt(0);
+                            n--;
+                            numR--;    
+                        
+                        
                             x += extra;
                             y++;
                         }
 
-                        
-
-
-                }
-
-                for (int i = 0; i < numR; i++)
-                {
-                    if (Sortedprocesses[i].remaining_time <= 0)
-                    {
-                        Sortedprocesses.RemoveAt(i);
-                        n--;
-                        i--;
-                        numR--;
-                    }
-                }
-
-                prevnumR = numR;
             }
             pictureBox1.Invalidate();
             label9.Text = ((float)rrsum / num_process).ToString();
