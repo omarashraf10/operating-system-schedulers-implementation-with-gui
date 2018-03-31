@@ -994,6 +994,7 @@ namespace os_project
         private void button3_Click_1(object sender, EventArgs e)
         {
             //pictureBox1.Image = null;
+            g = Graphics.FromImage(image);
             g.Clear(Color.WhiteSmoke);
             pictureBox1.Invalidate();
 
