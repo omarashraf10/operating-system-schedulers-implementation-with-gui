@@ -521,7 +521,7 @@ namespace os_project
                     {
                         if (inturrupt > 0)
                         {
-                                g.DrawString((tend - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                                g.DrawString((tend).ToString(), font, sblack, new PointF(x + extra - 15, 80));
                                 x += extra;
                                 y++;
                                 if (y % 2 != 0)
@@ -554,7 +554,7 @@ namespace os_project
                     }
                     else
                     {
-                        tend = t + 1;
+                        tend = t;
                     }
                     t++;
                    if (flagcount != 0)
@@ -690,8 +690,7 @@ namespace os_project
                 
                 while (n > 0)
                 {
-                    flag = 0;
-                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
+                    flag = 0;                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
                     for (int i = 0; i < n; i++)
                     {
                         if (processes[i].arrival_time < t)
@@ -735,7 +734,7 @@ namespace os_project
                     {
                         if (inturrupt > 0)
                         {
-                            g.DrawString((tend - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                            g.DrawString((tend).ToString(), font, sblack, new PointF(x + extra - 15, 80));
                             x += extra;
                                 y++;
                                 if (y % 2 != 0)
@@ -768,7 +767,7 @@ namespace os_project
                         pjsum += minprocess.waiting;
                     }
                     else {
-                        tend = t + 1;
+                        tend = t;
                     }
                    t++;
                    if (flagcount != 0)
@@ -800,7 +799,6 @@ namespace os_project
                 int x = 20;
                 int y = 1;
                 int numR;
-                int prevnumR=0;
                 int count = 0;
                 List<process> Sortedprocesses = processes.OrderBy(o => o.arrival_time).ToList();
                 List<process> countlist = new List<process>();
@@ -884,7 +882,6 @@ namespace os_project
              x = 20;
              y = 1;
              numR=0;
-             prevnumR = 0;
         while (n > 0)
                {
                 flag = 0;
