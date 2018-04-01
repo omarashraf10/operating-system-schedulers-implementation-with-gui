@@ -134,6 +134,7 @@ namespace os_project
 
         private void button2_Click(object sender, EventArgs e)
         {
+            processes.Clear();
             label11.Visible = true;
             label8.Visible = true;
             for (int i = 0; i < num_process; i++)
@@ -1103,6 +1104,17 @@ namespace os_project
             button1.Visible = false; 
             button2.Enabled = true;}
 
+        }
+
+        private void datagridview1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void datagridview1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            button1.Visible = true;
+            button1.Enabled = true;
         }
     }
 }

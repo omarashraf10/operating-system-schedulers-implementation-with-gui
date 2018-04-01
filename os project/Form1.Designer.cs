@@ -240,8 +240,10 @@
             this.datagridview1.Size = new System.Drawing.Size(441, 188);
             this.datagridview1.TabIndex = 25;
             this.datagridview1.Visible = false;
+            this.datagridview1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.datagridview1_CellBeginEdit);
             this.datagridview1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagridview1_CellClick);
             this.datagridview1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagridview1_CellContentClick);
+            this.datagridview1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagridview1_CellValueChanged);
             // 
             // button1
             // 
