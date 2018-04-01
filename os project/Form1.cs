@@ -45,13 +45,13 @@ namespace os_project
 
             if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)") 
             {
-                priority_label.Visible = true;
-                priority_text.Visible = true;
+              //  priority_label.Visible = true;
+                //priority_text.Visible = true;
             }
             else
             {
-                priority_label.Visible = false;
-                priority_text.Visible = false;
+              //  priority_label.Visible = false;
+             //   priority_text.Visible = false;
             }
 
             if (comboBox1.Text == "Round Robin")
@@ -70,93 +70,106 @@ namespace os_project
             }
 
         }
-        int count_click = 0;
-        int num=0;
-        private void button1_Click(object sender, EventArgs e)
-        {
-           
-            count_click++;
-            
-            int temparrival = Int32.Parse(textBox4.Text);
-            int tempburst = Int32.Parse(textBox2.Text);
-            int temppriority;
 
-            process tempprocess = new process();
-            tempprocess.arrival_time = temparrival;
-            tempprocess.burst_time = tempburst;
-            tempprocess.name = "P"+ (num).ToString();
-            label10.Text = "P" + (num + 1).ToString();
-            if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)")
-            {
-                temppriority = Int32.Parse(priority_text.Text);
-                tempprocess.priority = temppriority;
-            }
-
-            if (comboBox1.Text == "SJF (Preemptive)" || comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Round Robin")
-            {
-                tempprocess.remaining_time = tempprocess.burst_time;
-            }
-
-            if (comboBox1.Text == "Round Robin")
-                quantum = Int32.Parse(textBox3.Text);
-
-            processes.Add(tempprocess);
-            textBox4.Text = "";
-            textBox2.Text = "";
-            priority_text.Text = "";
-            if (count_click == num_process)
-            {
-                button2.Enabled = true;
-                groupBox1.Visible = false;
-            }
-
-            num++;
-        }
         private void button3_Click(object sender, EventArgs e)
         {
-            num = 1;
             label5.Enabled = false;
             textBox3.Enabled = false;
             num_process = Int32.Parse(textBox1.Text);
-            textBox4.Visible = true;
-            textBox2.Visible = true;
             textBox1.Enabled = false;
             comboBox1.Enabled = false;
             confirm.Enabled = false;
-            label10.Text = "P1";
+
+            datagridview1.Visible = true;
+            datagridview1.DataSource = null;
+            datagridview1.Columns.Clear();  //Just make sure things are blank.
+            datagridview1.Columns.Add("Column1", "Name");
+            datagridview1.Columns.Add("Column2", "Arrival time");
+            datagridview1.Columns.Add("Column3", "Burst Time");
+            datagridview1.Columns.Add("Column3", "Priority");
+
+
+            datagridview1.Rows.Clear();
+            for (int i = 1; i <= num_process; i++)
+            {
+                datagridview1.Rows.Add("P" + (i.ToString()));
+            }
+            datagridview1.EditMode = DataGridViewEditMode.EditOnKeystroke;
+            button2.Enabled = true;
+
+
+        }
+
+       /* private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            int n;
+            bool isNumeric = int.TryParse(textBox4.Text, out n);
+            bool isNumeric2 = int.TryParse(textBox2.Text, out n);
+            if (isNumeric && isNumeric2) button1.Enabled = true;
+            else
+            {
+                button1.Enabled = false;
+
+            }
+        }*/
+
+       /* private void textBox2_TextChanged_1(object sender, EventArgs e)
+        {
+            int n;
+            bool isNumeric = int.TryParse(textBox4.Text, out n);
+            bool isNumeric2 = int.TryParse(textBox2.Text, out n);
+            if (isNumeric && isNumeric2) button1.Enabled = true;
+            else
+            {
+                button1.Enabled = false;
+
+            }
+        }*/
+        Graphics g;
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            label11.Visible = true;
+            label8.Visible = true;
+            for (int i = 0; i < num_process; i++)
+            {
+
+                int temparrival = Int32.Parse(datagridview1.Rows[i].Cells[1].Value.ToString());
+                int tempburst = Int32.Parse(datagridview1.Rows[i].Cells[2].Value.ToString());
+                int temppriority;
+
+                process tempprocess = new process();
+                tempprocess.arrival_time = temparrival;
+                tempprocess.burst_time = tempburst;
+                tempprocess.name = datagridview1.Rows[i].Cells[0].Value.ToString();
+                //tempprocess.name = datagridview1[i, 0].Value.ToString();
+                if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)")
+                {
+                    temppriority = Int32.Parse(datagridview1[i, 3].Value.ToString());
+                    tempprocess.priority = temppriority;
+                }
+
+                if (comboBox1.Text == "SJF (Preemptive)" || comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Round Robin")
+                {
+                    tempprocess.remaining_time = tempprocess.burst_time;
+                }
+
+                if (comboBox1.Text == "Round Robin")
+                    quantum = Int32.Parse(textBox3.Text);
+
+                processes.Add(tempprocess);
+               // textBox4.Text = "";
+                //textBox2.Text = "";
+               // priority_text.Text = "";
+                /*if (count_click == num_process)
+                {
+                    groupBox1.Visible = false;
+                }*/
+            }
 
             
 
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-            int n;
-            bool isNumeric = int.TryParse(textBox4.Text, out n);
-            bool isNumeric2 = int.TryParse(textBox2.Text, out n);
-            if (isNumeric && isNumeric2) button1.Enabled = true;
-            else
-            {
-                button1.Enabled = false;
-
-            }
-        }
-
-        private void textBox2_TextChanged_1(object sender, EventArgs e)
-        {
-            int n;
-            bool isNumeric = int.TryParse(textBox4.Text, out n);
-            bool isNumeric2 = int.TryParse(textBox2.Text, out n);
-            if (isNumeric && isNumeric2) button1.Enabled = true;
-            else
-            {
-                button1.Enabled = false;
-
-            }
-        }
-        Graphics g;
-        private void button2_Click(object sender, EventArgs e)
-        {
             button2.Enabled = false;
             SolidBrush sbwhite = new SolidBrush(Color.Aqua);
             SolidBrush sblack = new SolidBrush(Color.Black);
@@ -379,7 +392,7 @@ namespace os_project
                 int flagcount=9887;//عشان لما بروسيس تخلف اخليه بصفر واخلى الاندكس ميساويش النيو اندكس
                 int flag2 = 0;//عشان ارسم اول بروسيس
                 int flag = 0;// يعنى مفيش بروسيس موجودة
-             /* هعمل الكود مرتين مرة عشان اعرف عدد المستطيلات اللى هرسمها ومرة عشان ارسم الشارت كلها واحسب التايم*/
+                // هعمل الكود مرتين مرة عشان اعرف عدد المستطيلات اللى هرسمها ومرة عشان ارسم الشارت كلها واحسب التايم
                 List<process> countlist = new List <process>();
                 foreach (process pc in processes)
                 {
@@ -389,7 +402,7 @@ namespace os_project
                 while(n>0)
                 {
                     flag = 0;
-                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
+                    // بجيب هنا البروسيس اللى جاهزة تخش
                     for (int i = 0; i < n; i++)
                     {
                         if (countlist[i].arrival_time <t)
@@ -404,20 +417,20 @@ namespace os_project
                             
                         }
                     }
-                    /*لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية*/
+                    //لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية
                     if (flag == 0)
                     {
                         t++;
                         continue;
                     }
-                    /*دا عشان ارسم اول بروسيس ومش هخش هنا تانى*/
+                    //دا عشان ارسم اول بروسيس ومش هخش هنا تانى
                     if (flag2 == 0)
                     {
                         flag2++;
                             count++;
                     }
                     
-                    /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
+                    //لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة
                     if (newindex != index)
                     {
                         if (inturrupt > 0)
@@ -476,7 +489,7 @@ namespace os_project
                 while(n>0)
                 {
                     flag = 0;
-                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
+                    // بجيب هنا البروسيس اللى جاهزة تخش
                     for (int i = 0; i < n; i++)
                     {
                         if (processes[i].arrival_time <t)
@@ -492,13 +505,13 @@ namespace os_project
                             
                         }
                     }
-                    /*لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية*/
+                    //لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية
                     if (flag == 0)
                     {
                         t++;
                         continue;
                     }
-                    /*دا عشان ارسم اول بروسيس ومش هخش هنا تانى*/
+                    //دا عشان ارسم اول بروسيس ومش هخش هنا تانى
                     if (flag2 == 0)
                     {
                         flag2++;
@@ -510,13 +523,8 @@ namespace os_project
                             g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
                             g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                     }
-                    /*
-                            g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
-                            g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                            g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
-
-                    */
-                    /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
+              
+                    //لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة
                     if (newindex != index)
                     {
                         if (inturrupt > 0)
@@ -603,7 +611,7 @@ namespace os_project
                 while (n > 0)
                 {
                     flag = 0;
-                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
+                    // بجيب هنا البروسيس اللى جاهزة تخش
                     for (int i = 0; i < n; i++)
                     {
                         if (countlist[i].arrival_time < t)
@@ -618,20 +626,20 @@ namespace os_project
                         }
 
                     }
-                    /*لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية*/
+                    //لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية
                     if (flag == 0)
                     {
                         t++;
                         continue;
                     }
-                    /*دا عشان ارسم اول بروسيس ومش هخش هنا تانى*/
+                    //دا عشان ارسم اول بروسيس ومش هخش هنا تانى
                     if (flag2 == 0)
                     {
                         flag2++;
                         count++;
                     }
 
-                    /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
+                    //لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة
                     if (newindex != index)
                     {
                         if (inturrupt > 0)
@@ -690,7 +698,7 @@ namespace os_project
                 
                 while (n > 0)
                 {
-                    flag = 0;                    /* بجيب هنا البروسيس اللى جاهزة تخش*/
+                    flag = 0;                    // بجيب هنا البروسيس اللى جاهزة تخش
                     for (int i = 0; i < n; i++)
                     {
                         if (processes[i].arrival_time < t)
@@ -705,13 +713,13 @@ namespace os_project
                         }
 
                     }
-                    /*لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية*/
+                    //لو لقيت الفلاج بصفر يبقى مفيش ولا بروسيس جاهزة وهزود التايم واروح اللفة التانية
                     if (flag == 0)
                     {
                         t++;
                         continue;
                     }
-                    /*دا عشان ارسم اول بروسيس ومش هخش هنا تانى*/
+                    //دا عشان ارسم اول بروسيس ومش هخش هنا تانى
                     if (flag2 == 0)
                     {
                         flag2++;
@@ -723,13 +731,8 @@ namespace os_project
                         g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
                         g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                     }
-                    /*
-                         g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
-                         g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                         g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
-
-                 */
-                    /*لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة*/
+                  
+                    //لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة
                     if (newindex != index)
                     {
                         if (inturrupt > 0)
@@ -867,12 +870,7 @@ namespace os_project
 
                 }
 
-             /*
-                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
-                    g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + extra - 15, 80));
-
-            */
+         
              int extra = (count < 9) ? 100 : (800 / count);
 
              flag = 0;
@@ -968,6 +966,7 @@ namespace os_project
         
             
             }
+            
     }
         private void priority_text_TextChanged(object sender, EventArgs e)
         {
@@ -990,28 +989,20 @@ namespace os_project
 
         private void button3_Click_1(object sender, EventArgs e)
         {
-            //pictureBox1.Image = null;
+            label11.Visible = false;
+            label8.Visible = false;
             g = Graphics.FromImage(image);
             g.Clear(Color.WhiteSmoke);
             pictureBox1.Invalidate();
-
-           // pictureBox1.InitialImage = null;
-            num = 0;
-            priority_label.Visible = false;
-            priority_text.Visible = false;
+            datagridview1.Visible = false;
             textBox3.Visible = false;
             label5.Visible = false;
             confirm.Enabled = false;
             button2.Enabled = false;
-            textBox4.Visible = false;
-            textBox2.Visible=false;
             processes.Clear();
             textBox1.Text = "0";
             comboBox1.Text = "";
-            count_click = 0;
             num_process = Int32.Parse(textBox1.Text);
-            groupBox1.Visible = true;
-            label10.Text="";
             label9.Text = "";
             textBox1.Enabled = true;
             comboBox1.Enabled = true;
@@ -1041,6 +1032,24 @@ namespace os_project
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(image, 0, 0, image.Width, image.Height);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            datagridview1.DataSource = null;
+            datagridview1.Columns.Clear();  //Just make sure things are blank.
+            datagridview1.Columns.Add("Column1","Name");
+            datagridview1.Columns.Add("Column2","Arrival time");
+            datagridview1.Columns.Add("Column3","Burst Time");
+            datagridview1.Columns.Add("Column3", "Priority");
+
+
+            datagridview1.Rows.Clear();
+            for(int i = 0;i<10;i++)
+            {
+                datagridview1.Rows.Add("P"+(i.ToString()));
+            }
+            datagridview1.EditMode = DataGridViewEditMode.EditOnKeystroke;
         }
     }
 }
