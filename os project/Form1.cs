@@ -200,16 +200,17 @@ namespace os_project
                 int n = num_process;
                 int x = 20;
                 int y = 1;
+                List<process> Sortedprocesses = processes.OrderBy(o => o.arrival_time).ToList();
                 while (n > 0)
                 {
                     flag = 0;
                     mintime = 1000000;
                     for (int i = 0; i < n; i++)
                     {
-                        if (processes[i].arrival_time < t && processes[i].arrival_time < mintime)
+                        if (Sortedprocesses[i].arrival_time < t && Sortedprocesses[i].arrival_time < mintime)
                         {
                             flag++;
-                            mintime = processes[i].arrival_time;
+                            mintime = Sortedprocesses[i].arrival_time;
                             index = i;
                         }
                     }
@@ -224,21 +225,21 @@ namespace os_project
                     else
                     g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x+3 , 80)); 
-                    g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                    g.DrawString((t-1+processes[index].burst_time).ToString(), font, sblack, new PointF(x + (extra-15), 80));
+                    g.DrawString((t - 1).ToString(), font, sblack, new PointF(x+3 , 80));
+                    g.DrawString(Sortedprocesses[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                    g.DrawString((t - 1 + Sortedprocesses[index].burst_time).ToString(), font, sblack, new PointF(x + (extra - 15), 80));
 
-                    t += processes[index].burst_time;
-                    processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
-                    fsum += processes[index].waiting;
+                    t += Sortedprocesses[index].burst_time;
+                    Sortedprocesses[index].waiting = t - Sortedprocesses[index].burst_time - Sortedprocesses[index].arrival_time - 1;
+                    fsum += Sortedprocesses[index].waiting;
 
                     x += extra;
                     y++;
-                        if (processes[index].remaining_time == 0)
+                    if (Sortedprocesses[index].remaining_time == 0)
                         {
                             for (int j = index; j < n - 1; j++)
                             {
-                                processes[j] = processes[j + 1];
+                                Sortedprocesses[j] = Sortedprocesses[j + 1];
                             }
                             n--;
                         }
@@ -257,7 +258,8 @@ namespace os_project
                   int t = 1;
                   int flag;
                   int burst_time = 100000;
-                  process minprocess=processes[0];
+                  List<process> Sortedprocesses = processes.OrderBy(o => o.arrival_time).ToList();
+                  process minprocess = Sortedprocesses[0];
                   int sjsum = 0;
                   int index=0;
                   int n = num_process;
@@ -268,14 +270,14 @@ namespace os_project
                       flag = 0;
                       for (int i = 0; i < n; i++)
                       {
-                          if (processes[i].arrival_time < t)
+                          if (Sortedprocesses[i].arrival_time < t)
                           {
                               flag++;
-                              if (processes[i].burst_time < burst_time)
+                              if (Sortedprocesses[i].burst_time < burst_time)
                               {
-                                  
-                                  minprocess = processes[i];
-                                  burst_time = processes[i].burst_time;
+
+                                  minprocess = Sortedprocesses[i];
+                                  burst_time = Sortedprocesses[i].burst_time;
                                   index = i;
                               }
                           }
@@ -291,21 +293,21 @@ namespace os_project
                       else
                           g.FillRectangle(sbyellow, x, 20, extra, 50);
 
-                      g.DrawString((t - 1).ToString(), font, sblack, new PointF(x+3 , 80)); 
-                      g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                      g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra-15 , 80));
+                      g.DrawString((t - 1).ToString(), font, sblack, new PointF(x+3 , 80));
+                      g.DrawString(Sortedprocesses[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                      g.DrawString((t - 1 + Sortedprocesses[index].burst_time).ToString(), font, sblack, new PointF(x + extra - 15, 80));
 
-                   
 
-                      t += processes[index].burst_time;
-                      processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
-                      sjsum += processes[index].waiting;
+
+                      t += Sortedprocesses[index].burst_time;
+                      Sortedprocesses[index].waiting = t - Sortedprocesses[index].burst_time - Sortedprocesses[index].arrival_time - 1;
+                      sjsum += Sortedprocesses[index].waiting;
 
                       x += extra;
                       y++;
                       for (int i = index; i < n-1; i++)
                       {
-                        processes[i] = processes[i + 1];
+                          Sortedprocesses[i] = Sortedprocesses[i + 1];
                       }
 
                        burst_time = 100000;
@@ -323,7 +325,8 @@ namespace os_project
                 int t = 1;
                 int flag;
                 int priority = 10000000;
-                process bestprocess = processes[0];
+                List<process> Sortedprocesses = processes.OrderBy(o => o.arrival_time).ToList();
+                process bestprocess = Sortedprocesses[0];
                 int psum = 0;
                 int index = 0;
                 int n = num_process;
@@ -335,13 +338,13 @@ namespace os_project
                     flag = 0;
                     for (int i = 0; i < n; i++)
                     {
-                        if (processes[i].arrival_time <t)
+                        if (Sortedprocesses[i].arrival_time < t)
                        {
                            flag++;
-                            if (processes[i].priority < priority)
+                           if (Sortedprocesses[i].priority < priority)
                             {
-                                bestprocess = processes[i];
-                                priority = processes[i].priority;
+                                bestprocess = Sortedprocesses[i];
+                                priority = Sortedprocesses[i].priority;
                                 index = i;
                             }
                         }
@@ -360,18 +363,18 @@ namespace os_project
 
 
                     g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
-                    g.DrawString(processes[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
-                    g.DrawString((t - 1 + processes[index].burst_time).ToString(), font, sblack, new PointF(x + extra - 15, 80));
-                    t += processes[index].burst_time;
-                    processes[index].waiting = t - processes[index].burst_time - processes[index].arrival_time - 1;
-                    psum += processes[index].waiting;
+                    g.DrawString(Sortedprocesses[index].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                    g.DrawString((t - 1 + Sortedprocesses[index].burst_time).ToString(), font, sblack, new PointF(x + extra - 15, 80));
+                    t += Sortedprocesses[index].burst_time;
+                    Sortedprocesses[index].waiting = t - Sortedprocesses[index].burst_time - Sortedprocesses[index].arrival_time - 1;
+                    psum += Sortedprocesses[index].waiting;
 
                     x += extra;
                     y++;
                     
                     for (int i = index; i < n - 1; i++)
                     {
-                        processes[i] = processes[i + 1];
+                        Sortedprocesses[i] = Sortedprocesses[i + 1];
                     }
 
                     priority = 100000;
@@ -388,7 +391,8 @@ namespace os_project
             {
                 int t =1;
                 int remaining_time = 10000000;
-                process minprocess = processes[0];
+                List<process> Sortedprocesses = processes.OrderBy(o => o.arrival_time).ToList();
+                process minprocess = Sortedprocesses[0];
                 int sjsum = 0;
                 int index = -1;
                 int newindex = 0;
@@ -401,7 +405,7 @@ namespace os_project
                 int flag = 0;// يعنى مفيش بروسيس موجودة
                 // هعمل الكود مرتين مرة عشان اعرف عدد المستطيلات اللى هرسمها ومرة عشان ارسم الشارت كلها واحسب التايم
                 List<process> countlist = new List <process>();
-                foreach (process pc in processes)
+                foreach (process pc in Sortedprocesses)
                 {
                     countlist.Add(new process(pc));
                 }
@@ -481,7 +485,7 @@ namespace os_project
                 int extra = (count < 9) ? 100 : (800 / count);
                 t = 1;
                 remaining_time = 10000000;
-                minprocess = processes[0];
+                minprocess = Sortedprocesses[0];
                 sjsum = 0;
                 index = -1;
                 newindex = 0;
@@ -499,14 +503,14 @@ namespace os_project
                     // بجيب هنا البروسيس اللى جاهزة تخش
                     for (int i = 0; i < n; i++)
                     {
-                        if (processes[i].arrival_time <t)
+                        if (Sortedprocesses[i].arrival_time < t)
                         {
                             flag++;
-                            if (processes[i].remaining_time < remaining_time)
+                            if (Sortedprocesses[i].remaining_time < remaining_time)
                             {
-                                   
-                                    minprocess = processes[i];
-                                    remaining_time = processes[i].remaining_time;
+
+                                minprocess = Sortedprocesses[i];
+                                remaining_time = Sortedprocesses[i].remaining_time;
                                     newindex = i;
                             }
                             
@@ -528,7 +532,7 @@ namespace os_project
                                 g.FillRectangle(sbyellow, x, 20, extra, 50);
 
                             g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
-                            g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                            g.DrawString(Sortedprocesses[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                     }
               
                     //لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة
@@ -544,18 +548,18 @@ namespace os_project
                                 else
                                     g.FillRectangle(sbyellow, x, 20, extra, 50);
                                 g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
-                                g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                                g.DrawString(Sortedprocesses[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                         }
                         inturrupt++;
                     }
-                   
-                    processes[newindex].remaining_time--;
-                    if (processes[newindex].remaining_time <= 0)
+
+                    Sortedprocesses[newindex].remaining_time--;
+                    if (Sortedprocesses[newindex].remaining_time <= 0)
                     {
-                        processes[newindex].waiting = t - processes[newindex].arrival_time - processes[newindex].burst_time;
-                        minprocess.waiting = processes[newindex].waiting;
+                        Sortedprocesses[newindex].waiting = t - Sortedprocesses[newindex].arrival_time - Sortedprocesses[newindex].burst_time;
+                        minprocess.waiting = Sortedprocesses[newindex].waiting;
                         tend = t;
-                        processes.RemoveAt(newindex);
+                        Sortedprocesses.RemoveAt(newindex);
                         n--;
                         newindex = 0;
                         flagcount = 0;
@@ -598,7 +602,8 @@ namespace os_project
             {
                 int t = 1;
                 int priority = 1000000;
-                process minprocess = processes[0];
+                List<process> Sortedprocesses = processes.OrderBy(o => o.arrival_time).ToList();
+                process minprocess = Sortedprocesses[0];
                 int pjsum = 0;
                 int index = -1;
                 int newindex = 0;
@@ -610,7 +615,7 @@ namespace os_project
                 int flag2 = 0;//عشان ارسم اول بروسيس
                 int flag = 0;// يعنى مفيش بروسيس موجودة
                 List<process> countlist = new List<process>();
-                foreach (process pc in processes)
+                foreach (process pc in Sortedprocesses)
                 {
                     countlist.Add(new process(pc));
                 }
@@ -690,7 +695,7 @@ namespace os_project
                  int extra = (count < 9) ? 100 : (800 / count);
                  t = 1;
                  priority = 1000000;
-                 minprocess = processes[0];
+                 minprocess = Sortedprocesses[0];
                  pjsum = 0;
                  index = -1;
                  newindex = 0;
@@ -708,13 +713,13 @@ namespace os_project
                     flag = 0;                    // بجيب هنا البروسيس اللى جاهزة تخش
                     for (int i = 0; i < n; i++)
                     {
-                        if (processes[i].arrival_time < t)
+                        if (Sortedprocesses[i].arrival_time < t)
                         {
-                            flag++;   
-                            if (processes[i].priority < priority)
+                            flag++;
+                            if (Sortedprocesses[i].priority < priority)
                             {
-                                minprocess = processes[i];
-                                priority = processes[i].priority;
+                                minprocess = Sortedprocesses[i];
+                                priority = Sortedprocesses[i].priority;
                                 newindex = i;
                             }
                         }
@@ -736,7 +741,7 @@ namespace os_project
                             g.FillRectangle(sbyellow, x, 20, extra, 50);
 
                         g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
-                        g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                        g.DrawString(Sortedprocesses[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                     }
                   
                     //لو رحت لبروسيس جديدة هكمل رسم القديمة وابدأ ارسم الجديدة
@@ -753,18 +758,18 @@ namespace os_project
                                     g.FillRectangle(sbyellow, x, 20, extra, 50);
 
                                 g.DrawString((t - 1).ToString(), font, sblack, new PointF(x + 3, 80));
-                                g.DrawString(processes[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
+                                g.DrawString(Sortedprocesses[newindex].name, bigfont, sblack, new PointF(x + (extra / 2) - 15, 35));
                         }
                         inturrupt++;
                     }
-                   
-                    processes[newindex].remaining_time--;
-                    if (processes[newindex].remaining_time <= 0)
+
+                    Sortedprocesses[newindex].remaining_time--;
+                    if (Sortedprocesses[newindex].remaining_time <= 0)
                     {
-                        processes[newindex].waiting = t - processes[newindex].arrival_time - processes[newindex].burst_time;
-                        minprocess.waiting = processes[newindex].waiting;
+                        Sortedprocesses[newindex].waiting = t - Sortedprocesses[newindex].arrival_time - Sortedprocesses[newindex].burst_time;
+                        minprocess.waiting = Sortedprocesses[newindex].waiting;
                         tend = t;
-                        processes.RemoveAt(newindex);
+                        Sortedprocesses.RemoveAt(newindex);
                         n--;
                         newindex = 0;
                         flagcount = 0;
@@ -830,6 +835,7 @@ namespace os_project
                     {
                         t++;
                         continue;
+
                     }
 
 
