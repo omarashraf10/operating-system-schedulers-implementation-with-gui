@@ -44,6 +44,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.datagridview1 = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datagridview1)).BeginInit();
@@ -118,7 +119,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(123, 41);
             this.button2.TabIndex = 12;
-            this.button2.Text = "Calculate";
+            this.button2.Text = "RUN !";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -236,9 +237,24 @@
             this.datagridview1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datagridview1.Location = new System.Drawing.Point(68, 182);
             this.datagridview1.Name = "datagridview1";
-            this.datagridview1.Size = new System.Drawing.Size(453, 188);
+            this.datagridview1.Size = new System.Drawing.Size(441, 188);
             this.datagridview1.TabIndex = 25;
             this.datagridview1.Visible = false;
+            this.datagridview1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagridview1_CellClick);
+            this.datagridview1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagridview1_CellContentClick);
+            // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.Font = new System.Drawing.Font("Book Antiqua", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.OliveDrab;
+            this.button1.Location = new System.Drawing.Point(564, 241);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(123, 35);
+            this.button1.TabIndex = 26;
+            this.button1.Text = "Done";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
@@ -247,6 +263,7 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(984, 544);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.datagridview1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.pictureBox1);
@@ -286,6 +303,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DataGridView datagridview1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

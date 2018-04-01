@@ -73,20 +73,25 @@ namespace os_project
 
         private void button3_Click(object sender, EventArgs e)
         {
+            button1.Enabled = true;
+            button1.Visible = true;
+
             label5.Enabled = false;
             textBox3.Enabled = false;
             num_process = Int32.Parse(textBox1.Text);
             textBox1.Enabled = false;
             comboBox1.Enabled = false;
             confirm.Enabled = false;
-
+            datagridview1.AllowUserToAddRows = false;
             datagridview1.Visible = true;
             datagridview1.DataSource = null;
             datagridview1.Columns.Clear();  //Just make sure things are blank.
             datagridview1.Columns.Add("Column1", "Name");
             datagridview1.Columns.Add("Column2", "Arrival time");
             datagridview1.Columns.Add("Column3", "Burst Time");
-            datagridview1.Columns.Add("Column3", "Priority");
+
+            if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)")
+                datagridview1.Columns.Add("Column3", "Priority");
 
 
             datagridview1.Rows.Clear();
@@ -95,7 +100,6 @@ namespace os_project
                 datagridview1.Rows.Add("P" + (i.ToString()));
             }
             datagridview1.EditMode = DataGridViewEditMode.EditOnKeystroke;
-            button2.Enabled = true;
 
 
         }
@@ -135,39 +139,41 @@ namespace os_project
             for (int i = 0; i < num_process; i++)
             {
 
-                int temparrival = Int32.Parse(datagridview1.Rows[i].Cells[1].Value.ToString());
-                int tempburst = Int32.Parse(datagridview1.Rows[i].Cells[2].Value.ToString());
-                int temppriority;
+                    button2.Enabled = true;
 
-                process tempprocess = new process();
-                tempprocess.arrival_time = temparrival;
-                tempprocess.burst_time = tempburst;
-                tempprocess.name = datagridview1.Rows[i].Cells[0].Value.ToString();
-                //tempprocess.name = datagridview1[i, 0].Value.ToString();
-                if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)")
-                {
-                    temppriority = Int32.Parse(datagridview1[i, 3].Value.ToString());
-                    tempprocess.priority = temppriority;
-                }
+                    int temparrival = Int32.Parse(datagridview1.Rows[i].Cells[1].Value.ToString());
+                    int tempburst = Int32.Parse(datagridview1.Rows[i].Cells[2].Value.ToString());
 
-                if (comboBox1.Text == "SJF (Preemptive)" || comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Round Robin")
-                {
-                    tempprocess.remaining_time = tempprocess.burst_time;
-                }
+                    int temppriority;
 
-                if (comboBox1.Text == "Round Robin")
-                    quantum = Int32.Parse(textBox3.Text);
+                    process tempprocess = new process();
+                    tempprocess.arrival_time = temparrival;
+                    tempprocess.burst_time = tempburst;
+                    tempprocess.name = datagridview1.Rows[i].Cells[0].Value.ToString();
+                    //tempprocess.name = datagridview1[i, 0].Value.ToString();
+                    if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)")
+                    {
+                        temppriority = Int32.Parse(datagridview1.Rows[i].Cells[3].Value.ToString());
+                        tempprocess.priority = temppriority;
+                    }
 
-                processes.Add(tempprocess);
-               // textBox4.Text = "";
-                //textBox2.Text = "";
-               // priority_text.Text = "";
-                /*if (count_click == num_process)
-                {
-                    groupBox1.Visible = false;
-                }*/
+                    if (comboBox1.Text == "SJF (Preemptive)" || comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Round Robin")
+                    {
+                        tempprocess.remaining_time = tempprocess.burst_time;
+                    }
+
+                    if (comboBox1.Text == "Round Robin")
+                        quantum = Int32.Parse(textBox3.Text);
+
+                    processes.Add(tempprocess);
+                    // textBox4.Text = "";
+                    //textBox2.Text = "";
+                    // priority_text.Text = "";
+                    /*if (count_click == num_process)
+                    {
+                        groupBox1.Visible = false;
+                    }*/
             }
-
             
 
             button2.Enabled = false;
@@ -1050,6 +1056,53 @@ namespace os_project
                 datagridview1.Rows.Add("P"+(i.ToString()));
             }
             datagridview1.EditMode = DataGridViewEditMode.EditOnKeystroke;
+        }
+
+        private void datagridview1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void datagridview1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {int i,flag=0;
+        int n;
+            
+            for ( i = 0; i < num_process; i++)
+            {
+
+                if ((datagridview1.Rows[i].Cells[1].Value != null) && (datagridview1.Rows[i].Cells[2].Value != null)) 
+                {
+                    bool isNumeric = int.TryParse(datagridview1.Rows[i].Cells[1].Value.ToString(), out n);
+                    bool isNumeric2 = int.TryParse(datagridview1.Rows[i].Cells[2].Value.ToString(), out n);
+                    bool isNumeric3=true; //assume priority entered correct
+                    if (comboBox1.Text == "Priority (Preemptive)" || comboBox1.Text == "Priority (Non Preemptive)")
+                    {
+                        if (datagridview1.Rows[i].Cells[3].Value != null)
+                            isNumeric3 = int.TryParse(datagridview1.Rows[i].Cells[3].Value.ToString(), out n);
+                        else flag = 1; //priority empty
+                    
+                    }
+
+                    if (!isNumeric || !isNumeric2 || !isNumeric3)
+                    {
+                        flag = 1;
+                    }
+                }
+                else flag = 1;
+            }
+
+            if(flag==1)
+             MessageBox.Show("Please fill all fields with valid integers");
+
+            else{
+            button1.Visible = false; 
+            button2.Enabled = true;}
+
         }
     }
 }
